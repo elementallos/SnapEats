@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.RifornimentiController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="227.0" layoutX="87.0" layoutY="185.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="308.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="227.0" layoutX="88.0" layoutY="185.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="308.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="45.0" layoutX="129.0" layoutY="274.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="222.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="45.0" layoutX="129.0" layoutY="333.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="222.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="460.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="452.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="461.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="452.0" />
+      <Label layoutX="146.0" layoutY="218.0" styleClass="labelTitle" text="RIFORNIMENTI" textFill="#ffee00">
+         <font>
+            <Font name="HP Simplified Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="189.0" layoutY="285.0" style="-fx-effect: none;" text="MAGAZZINO" textFill="#cfcfcf">
+         <font>
+            <Font name="HP Simplified Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="178.0" layoutY="344.0" style="-fx-effect: none;" text="RIFORNIMENTI" textFill="#cfcfcf">
+         <font>
+            <Font name="HP Simplified Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="777.0" layoutY="563.0" style="-fx-effect: none;" text="&gt; INDIETRO   LOGOUT" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="preview" alignment="TOP_LEFT" layoutX="505.0" layoutY="119.0" prefHeight="362.0" prefWidth="363.0" style="-fx-effect: none;" text="&lt;preview&gt;" textFill="#aaaaaa">
+         <font>
+            <Font name="Consolas" size="16.0" />
+         </font>
+      </Label>
+      <Button layoutX="129.0" layoutY="274.0" mnemonicParsing="false" onAction="#magazzino" opacity="0.0" prefHeight="45.0" prefWidth="222.0" text="Button" />
+      <Button layoutX="132.0" layoutY="333.0" mnemonicParsing="false" onAction="#rifornimenti" opacity="0.0" prefHeight="45.0" prefWidth="222.0" text="Button" />
+      <Button layoutX="919.0" layoutY="555.0" mnemonicParsing="false" onAction="#logout" opacity="0.0" prefHeight="38.0" prefWidth="72.0" text="Button" />
+      <Button layoutX="775.0" layoutY="555.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="115.0" text="Button" />
+   </children>
+</AnchorPane>

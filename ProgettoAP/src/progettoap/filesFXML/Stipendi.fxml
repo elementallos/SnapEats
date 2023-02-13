@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.StipendiController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="129.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="742.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="130.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="742.0" />
+      <Label layoutX="777.0" layoutY="563.0" style="-fx-effect: none;" text="&gt; INDIETRO   LOGOUT" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="441.0" layoutY="123.0" styleClass="labelTitle" text="STIPENDI" textFill="#ffee00">
+         <font>
+            <Font name="HP Simplified Bold" size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="919.0" layoutY="555.0" mnemonicParsing="false" onAction="#logout" opacity="0.0" prefHeight="38.0" prefWidth="72.0" text="Button" />
+      <Button layoutX="775.0" layoutY="555.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="115.0" text="Button" />
+      <Label fx:id="listaImp" alignment="TOP_LEFT" layoutX="204.0" layoutY="188.0" prefHeight="214.0" prefWidth="338.0" text="&lt;impiegati&gt;" textFill="#909090">
+         <font>
+            <Font name="Consolas" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="listaStip" alignment="TOP_LEFT" layoutX="602.0" layoutY="188.0" prefHeight="214.0" prefWidth="230.0" text="&lt;stipendio&gt;" textFill="#909090">
+         <font>
+            <Font name="Consolas" size="17.0" />
+         </font>
+      </Label>
+      <Line endX="-100.0" endY="216.4000244140625" layoutX="669.0" layoutY="182.0" startX="-100.0" stroke="#bcbcbc" />
+      <Line endX="142.60003662109375" endY="224.79998779296875" layoutX="678.0" layoutY="198.0" startX="-500.5999755859375" startY="224.79998779296875" stroke="#bcbcbc" />
+      <Label fx:id="bilancio" layoutX="193.0" layoutY="436.0" prefHeight="38.0" prefWidth="629.0" text="&lt;bilancio totale&gt;" textFill="#909090">
+         <font>
+            <Font name="Consolas" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

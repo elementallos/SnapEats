@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="ProgettoAP.jnlp">
+  <information>
+    <title>ProgettoAP</title>
+    <vendor>rdngrl05a04h501o</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="ProgettoAP.jar" size="1064073" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="progettoap.ProgettoAP"  name="ProgettoAP" />
+  <update check="always"/>
+</jnlp>

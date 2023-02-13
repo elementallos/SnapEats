@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.RifStage1Controller">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="90.0" layoutY="57.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="832.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="89.0" layoutY="59.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="832.0" />
+      <TableView layoutX="139.0" layoutY="151.0" prefHeight="301.0" prefWidth="734.0">
+        <columns>
+          <TableColumn prefWidth="88.0" text="Prodotto" />
+          <TableColumn prefWidth="83.0" text="Quantità" />
+            <TableColumn prefWidth="98.0" text="Codice Prodotto" />
+            <TableColumn prefWidth="96.0" text="Carne" />
+            <TableColumn prefWidth="90.0" text="Verdura" />
+            <TableColumn prefWidth="90.0" text="Frutta" />
+            <TableColumn prefWidth="98.0" text="Formaggi" />
+            <TableColumn prefWidth="112.0" text="Pane" />
+        </columns>
+      </TableView>
+      <Label layoutX="414.0" layoutY="87.0" styleClass="labelTitle" text="MAGAZZINO" textFill="#ffee00">
+         <font>
+            <Font name="HP Simplified" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="864.0" layoutY="562.0" prefHeight="23.0" prefWidth="114.0" text="&gt; INDIETRO" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="864.0" layoutY="560.0" mnemonicParsing="false" onAction="#indietro" opacity="0.01" prefHeight="26.0" prefWidth="114.0" text="Button" />
+   </children>
+</AnchorPane>

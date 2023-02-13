@@ -1,0 +1,37 @@
+/*
+        SNAP EATS
+
+        text color:                      #ffe300 
+        text color yellow buttons:       #dc5634
+        text color white buttons:        #cfcfcf
+*/
+
+.labelTitle {
+    -fx-effect: dropshadow( gaussian , #ffb000 , 0,0,0,4 );
+    -fx-font-weight: bold;
+}
+
+.textField {
+    -fx-background-color: #ffffff;
+}
+
+.bg {
+    -fx-background-image: url("/progettoap/images/background.png");
+    -fx-background-size: cover;
+}
+
+.box {
+    -fx-arc-height: 40;
+    -fx-arc-width: 40;
+    -fx-effect: dropshadow( gaussian , #eeeeee , 0,0,0,6 );
+}
+
+.shadow {
+    -fx-arc-height: 40;
+    -fx-arc-width: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 60, 0, 0, 0);
+}
+
+.menubutton {
+    -fx-background-color: #ffffff;
+}
