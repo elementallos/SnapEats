@@ -12,16 +12,12 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="90.0" layoutY="57.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="832.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="89.0" layoutY="59.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="832.0" />
-      <TableView layoutX="139.0" layoutY="151.0" prefHeight="301.0" prefWidth="734.0">
+      <TableView fx:id="table" layoutX="139.0" layoutY="151.0" prefHeight="301.0" prefWidth="734.0">
         <columns>
-          <TableColumn prefWidth="88.0" text="Prodotto" />
-          <TableColumn prefWidth="83.0" text="Quantità" />
-            <TableColumn prefWidth="98.0" text="Codice Prodotto" />
-            <TableColumn prefWidth="96.0" text="Carne" />
-            <TableColumn prefWidth="90.0" text="Verdura" />
-            <TableColumn prefWidth="90.0" text="Frutta" />
-            <TableColumn prefWidth="98.0" text="Formaggi" />
-            <TableColumn prefWidth="112.0" text="Pane" />
+          <TableColumn fx:id="id" prefWidth="33.600006103515625" text="ID" />
+          <TableColumn fx:id="foodName" prefWidth="284.8000030517578" text="NOME ALIMENTO" />
+            <TableColumn fx:id="avalAmount" prefWidth="198.4000244140625" text="QUANTITA DISPONIBILE " />
+            <TableColumn fx:id="usedAmount" prefWidth="196.79998779296875" text="QUANTITA UTILIZZATA" />
         </columns>
       </TableView>
       <Label layoutX="414.0" layoutY="87.0" styleClass="labelTitle" text="MAGAZZINO" textFill="#ffee00">
