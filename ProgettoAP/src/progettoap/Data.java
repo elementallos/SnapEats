@@ -10,10 +10,12 @@ package progettoap;
  */
 public class Data {
 
-    private Integer id;
-    private String foodName;
-    private Integer avalAmount;
-    private Integer usedAmount;
+    private Integer id = null;
+    private String foodName = null;
+    private Integer avalAmount = null;
+    private Integer usedAmount = null;
+    private float price = 0;
+    private Integer amount = null;
 
     public Data(int id, String foodName, int avalAmount, int usedAmount) {
         this.id = id;
@@ -21,7 +23,15 @@ public class Data {
         this.avalAmount = avalAmount;
         this.usedAmount = usedAmount;
     }
+    
+    public Data(String foodName, float price, int amount) {
+        this.foodName = foodName;
+        this.price = price;
+        this.amount = amount;
+    }
 
+    
+    // getters and setters
     public int getId() {
         return id;
     }

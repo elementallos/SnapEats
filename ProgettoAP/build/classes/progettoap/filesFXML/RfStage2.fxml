@@ -21,11 +21,11 @@
          </font>
       </Label>
       <Button layoutX="875.0" layoutY="561.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="23.0" prefWidth="110.0" text="Button" />
-      <TableView layoutX="130.0" layoutY="126.0" prefHeight="349.0" prefWidth="363.0">
+      <TableView fx:id="table" layoutX="124.0" layoutY="125.0" prefHeight="350.0" prefWidth="376.0">
         <columns>
-          <TableColumn prefWidth="159.99998474121094" text="INGREDIENTE" />
-          <TableColumn minWidth="0.0" prefWidth="142.4000244140625" text="PREZZO" />
-            <TableColumn prefWidth="60.79998779296875" text="PEZZI" />
+          <TableColumn fx:id="foodName" prefWidth="179.99998474121094" text="ALIMENTO" />
+          <TableColumn fx:id="price" minWidth="0.0" prefWidth="76.800048828125" text="PREZZO" />
+            <TableColumn fx:id="amount" prefWidth="83.199951171875" text="QUANTITA" />
         </columns>
       </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="47.0" layoutX="657.0" layoutY="143.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="245.0" />

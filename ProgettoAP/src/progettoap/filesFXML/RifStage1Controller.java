@@ -53,8 +53,9 @@ public class RifStage1Controller implements Initializable {
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        db.connect();
         loadDataOnTable(tableName);
+        
+        db.closeConnection();
     }
     
     private void loadDataOnTable(String tableName){
