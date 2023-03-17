@@ -45,12 +45,12 @@ public class Database {
             Statement stmt = conn.createStatement();
         ) {		      
             String sql = "CREATE DATABASE IF NOT EXISTS progettoap";
-            stmt.executeUpdate(sql);
-            System.out.println("Database created successfully...");   	  
+            stmt.executeUpdate(sql);  	  
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+    
     
     // methods
     public Connection connect(){

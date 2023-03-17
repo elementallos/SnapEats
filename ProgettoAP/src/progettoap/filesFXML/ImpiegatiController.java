@@ -7,6 +7,9 @@ package progettoap.filesFXML;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import progettoap.Database;
 
 /**
  * FXML Controller class
@@ -23,7 +27,8 @@ import javafx.stage.Stage;
  * @author rdngrl05a04h501o
  */
 public class ImpiegatiController implements Initializable {
-
+    private Database db = null;
+    
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -31,8 +36,36 @@ public class ImpiegatiController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        String tableName = "impiegati";
+        
+        db = new Database(
+                "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
+        );
+        createTable(tableName);
+        
+        db.closeConnection();
     }    
+    
+    private void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "nome varchar(40),"
+                    + "cognome varchar(40),"
+                    + "data_nascita varchar(10),"
+                    + "codice_fiscale varchar(16),"
+                    + "telefono varchar(15),"
+                    + "email varchar(60),"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     
     @FXML
     public void gestione(ActionEvent event) throws IOException {

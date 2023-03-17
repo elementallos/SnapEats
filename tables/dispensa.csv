@@ -1,0 +1,51 @@
+ID,Nome Alimento,Quantità Disponibile,Quantità Utilizzata
+0,Hamburger,50,25
+1,Pane per hamburger,100,50
+2,Formaggio,30,15
+3,Patatine fritte,80,40
+4,Cipolle fritte,50,25
+5,Salsa di pomodoro,40,20
+6,Maionese,35,18
+7,Salsa BBQ,25,12
+8,Insalata,20,10
+9,Pomodori,30,15
+10,Cetrioli,25,12
+11,Peperoni,20,8
+12,Bacon,30,15
+13,Salsiccia,25,12
+14,Pancetta,20,8
+15,Pollo fritto,40,20
+16,Tacchino,35,18
+17,Pane per hot dog,60,30
+18,Salsiccia per hot dog,50,25
+19,Ketchup,30,15
+20,Mostarda,25,12
+21,Salsa chili,20,8
+22,Salsa aioli,18,9
+23,Guacamole,15,7
+24,Fagioli,10,5
+25,Piselli,14,6
+26,Lenticchie,8,2
+27,Peperoncino,10,5
+28,Rucola,15,7
+29,Cipolle rosse,20,10
+30,Salsa tzatziki,18,9
+31,Pane per club sandwich,50,25
+32,Prosciutto cotto,30,15
+33,Tacchino affumicato,25,12
+34,Pollo arrosto,40,20
+35,Speck,20,10
+36,Mozzarella,30,15
+37,Guanciale,25,12
+38,Uova,40,20
+39,Pane per panino al formaggio,60,30
+40,Insalata di patate,20,8
+41,Polpette,25,12
+42,Salsa tzatziki,18,9
+43,Parmigiano Reggiano,15,7
+44,Pane per sandwich,70,35
+45,Salsiccia italiana,30,15
+46,Peperoni arrostiti,20,10
+47,Cipolle caramellate,25,12
+48,Salsa di formaggio,20,8
+49,Pane per wrap,60,30

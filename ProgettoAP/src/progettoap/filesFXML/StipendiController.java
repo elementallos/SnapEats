@@ -7,6 +7,7 @@ package progettoap.filesFXML;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
@@ -63,11 +64,30 @@ public class StipendiController implements Initializable {
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
+        createTable(tableName);
         loadDataOnTable(tableName);
         outputBalance();
         
         db.closeConnection();
-    }  
+    }
+    
+    private void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "nome varchar(40),"
+                    + "cognome varchar(40),"
+                    + "ore_lavorate float,"
+                    + "stipendio float,"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     
     private void loadDataOnTable(String tableName){
         String sql = "SELECT * FROM " + tableName;

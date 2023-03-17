@@ -3,6 +3,7 @@ package progettoap.filesFXML;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -54,17 +55,61 @@ public class RifStage2Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         String tableName = "ordini_cibo";
-        
-        ultimoOrdineData.setText(getUltimoOrdineData(tableName));
-        ultimoOrdineData.setWrapText(true);
+        String ordini = "movimenti";
         
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
+        createTableOrdini(ordini);
+        createTable(tableName);
         loadDataOnTable(tableName);
+        
+        ultimoOrdineData.setText(getUltimoOrdineData(ordini));
+        ultimoOrdineData.setWrapText(true);
         
         db.closeConnection();
     }
+    
+    private void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "nome_alimento varchar(40),"
+                    + "prezzo float,"
+                    + "quantita int,"
+                    + "data varchar(10),"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    private void createTableOrdini(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "entrate_lordo float,"
+                    + "entrate_netto float,"
+                    + "uscite_pagamenti float,"
+                    + "uscite_impiegati float,"
+                    + "uscite_rifornimenti float,"
+                    + "uscite_tot float,"
+                    + "data varchar(10),"
+                    + "ora varchar(5),"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     
     private void loadDataOnTable(String tableName){
         String sql = "SELECT * FROM " + tableName;
@@ -90,7 +135,7 @@ public class RifStage2Controller implements Initializable {
 
             while (resultSet.next()) {
                 Data data = new Data(
-                    resultSet.getString("alimento"),
+                    resultSet.getString("nome_alimento"),
                     resultSet.getFloat("prezzo"),
                     resultSet.getInt("quantita")
                 );
@@ -108,7 +153,7 @@ public class RifStage2Controller implements Initializable {
     
     
     private String getUltimoOrdineData(String tableName){
-        String res = null;
+        String res = "< ULTIMO ORDINE >\n";
         
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
@@ -118,10 +163,12 @@ public class RifStage2Controller implements Initializable {
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id=1");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " ORDER BY ID DESC LIMIT 1");
             
-            res = "Data: " + resultSet.getString("data");
-            res = res + "\nOra: " + resultSet.getString("ora");
+            if (resultSet.next()) {
+               res = res + "Data: " + resultSet.getString("data");
+               res = res + "\nOra: " + resultSet.getString("ora");
+            }
         }
         
         catch(Exception e){

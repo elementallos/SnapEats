@@ -3,6 +3,7 @@ package progettoap.filesFXML;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -53,9 +54,27 @@ public class RifStage1Controller implements Initializable {
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
+        createTable(tableName);
         loadDataOnTable(tableName);
         
         db.closeConnection();
+    }
+    
+    private void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "nome_alimento varchar(40),"
+                    + "quantita_disponibile float,"
+                    + "quantita_utilizzata float,"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
     private void loadDataOnTable(String tableName){
@@ -85,9 +104,9 @@ public class RifStage1Controller implements Initializable {
             while (resultSet.next()) {
                 Data data = new Data(
                     resultSet.getInt("id"),
-                    resultSet.getString("nomeAlimento"),
-                    resultSet.getInt("quantitaDisponibile"),
-                    resultSet.getInt("quantitaUtilizzata")
+                    resultSet.getString("nome_alimento"),
+                    resultSet.getInt("quantita_disponibile"),
+                    resultSet.getInt("quantita_utilizzata")
                 );
                 dataList.add(data);
             }
