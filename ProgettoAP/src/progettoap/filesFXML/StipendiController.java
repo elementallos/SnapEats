@@ -6,7 +6,13 @@ package progettoap.filesFXML;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +21,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import progettoap.Data;
+import progettoap.Database;
 
 /**
  * FXML Controller class
@@ -23,23 +34,109 @@ import javafx.stage.Stage;
  * @author HP
  */
 public class StipendiController implements Initializable {
-
+    private Database db = null;
+    
     private Stage stage;
     private Scene scene;
     private Parent root;
     
     @FXML
-    private Label listaImp;
-    @FXML
-    private Label listaStip;
-    @FXML
     private Label bilancio;
+    
+    // inserire dati tableview
+    @FXML
+    private TableView<Data> table;
+    @FXML
+    private TableColumn<Data, String> name;
+    @FXML
+    private TableColumn<Data, String> surname;
+    @FXML
+    private TableColumn<Data, Float> hours;
+    @FXML
+    private TableColumn<Data, Float> salary;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        String tableName = "stipendi";
+        
+        db = new Database(
+                "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
+        );
+        loadDataOnTable(tableName);
+        outputBalance();
+        
+        db.closeConnection();
+    }  
+    
+    private void loadDataOnTable(String tableName){
+        String sql = "SELECT * FROM " + tableName;
+        ObservableList<Data> dataList = FXCollections.observableArrayList();
+
+        try{
+            // create the connection
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+
+            // Define table columns and map them to Data class properties
+            name.setCellValueFactory(new PropertyValueFactory<>("nome"));
+            surname.setCellValueFactory(new PropertyValueFactory<>("cognome"));
+            hours.setCellValueFactory(new PropertyValueFactory<>("oreLavorate"));
+            salary.setCellValueFactory(new PropertyValueFactory<>("stipendio"));
+
+            // Add columns to TableView
+            /*table.getColumns().add(name);
+            table.getColumns().add(surname);
+            table.getColumns().add(hours);
+            table.getColumns().add(salary);*/
+
+            while (resultSet.next()) {
+                Data data = new Data(
+                    resultSet.getString("nome"),
+                    resultSet.getString("cognome"),
+                    resultSet.getFloat("ore_lavorate"),
+                    resultSet.getFloat("stipendio")
+                );
+                dataList.add(data);
+            }
+
+            // Add data to TableView
+            table.setItems(dataList);
+        }
+
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    
+    private void outputBalance(){
+        try{
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT SUM(stipendio) FROM stipendi");
+            
+            // to change!!
+            double sum = 0;
+            while (resultSet.next()){
+                float c = resultSet.getFloat(1);
+                sum = sum+c;
+            }
+            
+            double bal = sum * 1.5;
+            bilancio.setText(
+                    "Bilancio totale:        € " + bal + "\n" +
+                    "Stipendi da pagare:     € "+ sum);
+        }
+        
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
     
     @FXML
     public void logout(ActionEvent event) throws IOException {

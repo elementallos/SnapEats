@@ -28,15 +28,29 @@ public class Database {
     
     
     // constructors
-    public Database(){}
+    public Database(){
+        createDatabase(); 
+    }
     public Database(String url, String root, String password, String tableName){
         this.url = url;
         this.root = root;
         this.password = password;
         
         this.tableName = tableName;
+        createDatabase();
     }
 
+    private void createDatabase(){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE DATABASE IF NOT EXISTS progettoap";
+            stmt.executeUpdate(sql);
+            System.out.println("Database created successfully...");   	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     
     // methods
     public Connection connect(){
@@ -56,6 +70,18 @@ public class Database {
         try{
             connection.close();
         }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    public void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName;
+            stmt.executeUpdate(sql);
+            System.out.println("Database created successfully...");   	  
+        } catch (Exception e) {
             System.out.println(e);
         }
     }

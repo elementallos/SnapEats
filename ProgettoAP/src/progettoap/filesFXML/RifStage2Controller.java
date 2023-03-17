@@ -53,10 +53,11 @@ public class RifStage2Controller implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ultimoOrdineData.setText(getUltimoOrdineData());
+        String tableName = "ordini_cibo";
+        
+        ultimoOrdineData.setText(getUltimoOrdineData(tableName));
         ultimoOrdineData.setWrapText(true);
         
-        String tableName = "ordiniCibo";
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
@@ -74,7 +75,7 @@ public class RifStage2Controller implements Initializable {
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            ResultSet resultSet = statement.executeQuery(sql);
 
 
             // Define table columns and map them to Data class properties
@@ -83,14 +84,14 @@ public class RifStage2Controller implements Initializable {
             amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
             // Add columns to TableView
-            table.getColumns().add(foodName);
+            /*table.getColumns().add(foodName);
             table.getColumns().add(price);
-            table.getColumns().add(amount);
+            table.getColumns().add(amount);*/
 
             while (resultSet.next()) {
                 Data data = new Data(
-                    resultSet.getString("nomeAlimento"),
-                    resultSet.getInt("prezzo"),
+                    resultSet.getString("alimento"),
+                    resultSet.getFloat("prezzo"),
                     resultSet.getInt("quantita")
                 );
                 dataList.add(data);
@@ -106,9 +107,9 @@ public class RifStage2Controller implements Initializable {
     }
     
     
-    private String getUltimoOrdineData(){
+    private String getUltimoOrdineData(String tableName){
         String res = null;
-        String tableName = "ordini";
+        
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );

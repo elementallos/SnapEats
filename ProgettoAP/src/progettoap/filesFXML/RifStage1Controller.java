@@ -77,10 +77,10 @@ public class RifStage1Controller implements Initializable {
             usedAmount.setCellValueFactory(new PropertyValueFactory<>("usedAmount"));
 
             // Add columns to TableView
-            table.getColumns().add(id);
+            /*table.getColumns().add(id);
             table.getColumns().add(foodName);
             table.getColumns().add(avalAmount);
-            table.getColumns().add(usedAmount);
+            table.getColumns().add(usedAmount);*/
 
             while (resultSet.next()) {
                 Data data = new Data(
