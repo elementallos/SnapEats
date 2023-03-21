@@ -6,7 +6,15 @@ package progettoap.filesFXML;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +24,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import progettoap.Data;
+import progettoap.Database;
 
 /**
  * FXML Controller class
@@ -26,6 +39,9 @@ import javafx.stage.Stage;
  */
 public class ContabilitaController implements Initializable {
 
+    private Database db = null;
+    private String tableName = "movimenti";
+    
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -34,21 +50,162 @@ public class ContabilitaController implements Initializable {
     private Label listaMov;
     @FXML
     private Label recentMov;
+     
     
+    // inserire dati tableview
     @FXML
-    private Button movDD;
+    private TableView<Data> table;
     @FXML
-    private Button movSS;
+    private TableColumn<Data, String> date;
     @FXML
-    private Button movMM;   
-    
+    private TableColumn<Data, String> time;
+    @FXML
+    private TableColumn<Data, Float> in;
+    @FXML
+    private TableColumn<Data, Float> out;
+     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        // FIXME
         listaMov.setFont(new Font("Consolas", 20));
         listaMov.setText("lista movimenti -->");
-        recentMov.setText("movimento piu recente -->");
-    }    
+        recentMov.setText(getUltimoOrdineData(tableName));
+        
+        db = new Database(
+                "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
+        );
+        createTable(tableName);
+        loadDataOnTable(tableName, "");
+        
+        db.closeConnection();
+    }
+    
+    private void createTable(String tableName){
+        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+            Statement stmt = conn.createStatement();
+        ) {		      
+            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
+                    + "id int NOT NULL,"
+                    + "entrate_lordo float,"
+                    + "entrate_netto float,"
+                    + "iva float,"
+                    + "uscite_pagamenti float,"
+                    + "uscite_impiegati float,"
+                    + "uscite_rifornimenti float,"
+                    + "uscite_tot float,"
+                    + "data varchar(10),"
+                    + "ora varchar(5),"
+                    + "PRIMARY KEY (id)"
+                    + ");";
+            stmt.executeUpdate(sql); 	  
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    private void loadDataOnTable(String tableName, String mod){
+        LocalDate dateObj = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String dataAttuale = dateObj.format(formatter);
+        
+        String[] dateParts = dataAttuale.split("/");
+        String day = dateParts[1];
+        String month = dateParts[0];
+        String year = dateParts[2];
+        
+        String pattern = null;
+        switch(mod){
+            case "gg":
+                pattern = day + "/" + month + "/" + year;
+                break;
+            case "mm":
+                pattern = "%" + month + "/" + year;
+                break;
+            case "aa":
+                pattern = "%" + year;
+                break;
+            default:
+                break;
+        }
+        
+        String sql = "SELECT * FROM " + tableName;
+        if(pattern != null){
+            sql = "SELECT * FROM " + tableName + " WHERE data LIKE '" + pattern + "'";
+        }
+        ObservableList<Data> dataList = FXCollections.observableArrayList();
+
+        try{
+            // create the connection
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+
+            // Define table columns and map them to Data class properties
+            date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            time.setCellValueFactory(new PropertyValueFactory<>("time"));
+            in.setCellValueFactory(new PropertyValueFactory<>("in"));
+            out.setCellValueFactory(new PropertyValueFactory<>("out"));
+
+            // Add columns to TableView
+            /*table.getColumns().add(foodName);
+            table.getColumns().add(price);
+            table.getColumns().add(amount);*/
+
+            while (resultSet.next()) {
+                Data data = new Data(
+                    resultSet.getFloat("entrate_netto"),
+                    resultSet.getFloat("uscite_tot"),
+                    resultSet.getString("data"),
+                    resultSet.getString("ora")
+                );
+                dataList.add(data);
+            }
+
+            // Add data to TableView
+            table.setItems(dataList);
+        }
+
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    
+    private String getUltimoOrdineData(String tableName){
+        String res = "< ULTIMO ORDINE >\n";
+        
+        db = new Database(
+                "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
+        );
+        
+        try{
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " ORDER BY ID DESC LIMIT 1");
+            
+            if (resultSet.next()) {
+               res = res + "Data: \t" + resultSet.getString("data");
+               res = res + "\nOra: \t" + resultSet.getString("ora");
+            }
+        }
+        
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        db.closeConnection();
+        return res;
+    }
+    
+    
+    
+    
+    
     
     @FXML
     public void logout(ActionEvent event) throws IOException {
@@ -81,33 +238,19 @@ public class ContabilitaController implements Initializable {
     // update the list
     @FXML
     public void showMovDD(ActionEvent event) {
-        listaMov.setText(getMovFromFile(0));
-    }
-    
-    @FXML
-    public void showMovSS(ActionEvent event) {
-        listaMov.setText(getMovFromFile(1));
+        listaMov.setText("Giornaliero");
+        loadDataOnTable(tableName, "gg");
     }
     
     @FXML
     public void showMovMM(ActionEvent event) {
-        listaMov.setText(getMovFromFile(2));
+        listaMov.setText("Mensile");
+        loadDataOnTable(tableName, "mm");
     }
     
-    private String getMovFromFile(int mod){
-        /*  0: daily
-            1: weekly
-            2: monthly
-         */
-        switch (mod) {
-            case 0:
-                return "Giornaliero -->";
-            case 1:
-                return "Settimanale -->";
-            case 2:
-                return "Mensile -->";
-            default:
-                return "";
-        }
+    @FXML
+    public void showMovAA(ActionEvent event) {
+        listaMov.setText("Annuale");
+        loadDataOnTable(tableName, "aa");
     }
 }

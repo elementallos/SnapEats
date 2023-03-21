@@ -23,7 +23,7 @@ public class ProgettoAP extends Application {
         stage.setTitle("SnapEats");
         stage.getIcons().add(new Image(ProgettoAP.class.getResourceAsStream("/progettoap/images/snapeats_logo_rounded.png")));
         stage.setResizable(false);
-        Parent root = FXMLLoader.load(getClass().getResource("filesFXML/Stipendi.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("filesFXML/Login.fxml"));
         
         Scene scene = new Scene(root);
         

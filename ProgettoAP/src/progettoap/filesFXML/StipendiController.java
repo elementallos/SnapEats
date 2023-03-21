@@ -55,6 +55,8 @@ public class StipendiController implements Initializable {
     private TableColumn<Data, Float> hours;
     @FXML
     private TableColumn<Data, Float> salary;
+    @FXML
+    private TableColumn<Data, Float> h;
     
     
     @Override
@@ -81,6 +83,7 @@ public class StipendiController implements Initializable {
                     + "cognome varchar(40),"
                     + "ore_lavorate float,"
                     + "stipendio float,"
+                    + "paga_oraria float,"
                     + "PRIMARY KEY (id)"
                     + ");";
             stmt.executeUpdate(sql); 	  
@@ -106,6 +109,7 @@ public class StipendiController implements Initializable {
             surname.setCellValueFactory(new PropertyValueFactory<>("cognome"));
             hours.setCellValueFactory(new PropertyValueFactory<>("oreLavorate"));
             salary.setCellValueFactory(new PropertyValueFactory<>("stipendio"));
+            h.setCellValueFactory(new PropertyValueFactory<>("pagaOraria"));
 
             // Add columns to TableView
             /*table.getColumns().add(name);
@@ -118,7 +122,8 @@ public class StipendiController implements Initializable {
                     resultSet.getString("nome"),
                     resultSet.getString("cognome"),
                     resultSet.getFloat("ore_lavorate"),
-                    resultSet.getFloat("stipendio")
+                    resultSet.getFloat("stipendio"),
+                    resultSet.getFloat("paga_oraria")
                 );
                 dataList.add(data);
             }

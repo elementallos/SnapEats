@@ -17,11 +17,18 @@ public class Data {
     private Float price = null;
     private Integer amount = null;
     
+    // per movimenti (parziale)
+    private String date = null;
+    private String time = null;
+    private Float in = null;
+    private Float out = null;
+    
     // per stipendi
     private String nome = null;
     private String cognome = null;
     private Float oreLavorate = null;
     private Float stipendio = null;
+    private Float pagaOraria = null;
 
     public Data(int id, String foodName, int avalAmount, int usedAmount) {
         this.id = id;
@@ -36,11 +43,59 @@ public class Data {
         this.amount = amount;
     }
 
-    public Data(String nome, String cognome, float oreLavorate, float stipendio){
+    public Data(String nome, String cognome, float oreLavorate, float stipendio, float pagaOraria){
         this.nome = nome;
         this.cognome = cognome;
         this.oreLavorate = oreLavorate;
         this.stipendio = stipendio;
+        this.pagaOraria = pagaOraria;
+    }
+    
+    public Data(float in, float out, String date, String time){
+        this.in = in;
+        this.out = out;
+        this.date = date;
+        this.time = time;
+    }
+
+    public Float getPagaOraria() {
+        return pagaOraria;
+    }
+
+    public void setPagaOraria(Float pagaOraria) {
+        this.pagaOraria = pagaOraria;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Float getIn() {
+        return in;
+    }
+
+    public void setIn(Float in) {
+        this.in = in;
+    }
+
+    public Float getOut() {
+        return out;
+    }
+
+    public void setOut(Float out) {
+        this.out = out;
     }
 
     
