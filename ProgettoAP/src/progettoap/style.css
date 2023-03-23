@@ -11,10 +11,6 @@
     -fx-font-weight: bold;
 }
 
-.textField {
-    -fx-background-color: #ffffff;
-}
-
 .bg {
     -fx-background-image: url("/progettoap/images/background.png");
     -fx-background-size: cover;
@@ -102,3 +98,8 @@
 .table-view .column-header .label{
   -fx-text-fill: white;
 }
+
+
+.text-field {
+    -fx-background-color: #fff;
+}ù

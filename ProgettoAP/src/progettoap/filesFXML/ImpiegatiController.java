@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,6 +39,7 @@ import progettoap.Database;
 public class ImpiegatiController implements Initializable {
     
     private Database db = null;
+    String tableName = "impiegati";
     
     private Stage stage;
     private Scene scene;
@@ -55,30 +58,33 @@ public class ImpiegatiController implements Initializable {
     @FXML
     private Label info;
     
+    private int impID = 0;
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String tableName = "impiegati";
         
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        createTable(tableName);
-        loadDataOnTable(tableName);
-        setDetails(tableName, 0);
+        createTable();
+        loadDataOnTable();
+        setDetails(0);
         
         db.closeConnection();
         
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 int selectedIndex = table.getSelectionModel().getSelectedIndex();
-                setDetails(tableName, selectedIndex + 1);
+                impID = selectedIndex;
+                
+                setDetails(impID);
             }
         });
 
     }    
     
-    private void createTable(String tableName){
+    private void createTable(){
         try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
             Statement stmt = conn.createStatement();
         ) {		      
@@ -98,7 +104,7 @@ public class ImpiegatiController implements Initializable {
         }
     }
     
-    private void loadDataOnTable(String tableName){
+    private void loadDataOnTable(){
         String sql = "SELECT * FROM " + tableName;
         ObservableList<Data> dataList = FXCollections.observableArrayList();
 
@@ -133,17 +139,17 @@ public class ImpiegatiController implements Initializable {
         }
     }
     
-    private void setDetails(String tableName, int idImp){
+    private void setDetails(int impID){
         String res = "";
-        if(idImp == 0){
-            idImp = 1;
+        if(impID == 0){
+            impID = 1;
         }
         
         try{
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id = " + idImp);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id = " + (impID + 1));
             
             if (resultSet.next()) {
                 res = "Nome:\t" + resultSet.getString("nome") +
@@ -164,7 +170,26 @@ public class ImpiegatiController implements Initializable {
     
     @FXML
     public void del(ActionEvent event){
-        //
+        String sql = "DELETE FROM " + tableName + " WHERE id = " + (impID + 1);
+
+        try{
+            // create the connection
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            int rowsInserted = statement.executeUpdate(sql);
+
+            if (rowsInserted > 0) {
+                System.out.println("A row has been deleted");
+            }
+        }
+
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        setDetails(--impID);
+        loadDataOnTable();
     }
     
     
@@ -173,7 +198,7 @@ public class ImpiegatiController implements Initializable {
     @FXML
     public void mod(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("ImpiegatoModifica.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
@@ -181,12 +206,15 @@ public class ImpiegatiController implements Initializable {
     
     @FXML
     public void add(ActionEvent event) throws IOException {
+        System.out.println(impID);
+        
         root = FXMLLoader.load(getClass().getResource("ImpiegatoAggiungi.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    } 
+    }
+
     
     @FXML
     public void logout(ActionEvent event) throws IOException {

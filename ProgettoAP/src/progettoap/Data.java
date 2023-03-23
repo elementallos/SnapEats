@@ -29,7 +29,22 @@ public class Data {
     private Float oreLavorate = null;
     private Float stipendio = null;
     private Float pagaOraria = null;
+    
+    // per impiegati info
+    private String codiceFiscale = null;
+    private String dataNascita = null;
+    private String telefono = null;
+    private String email = null;
 
+    public Data(String nome, String cognome, String codiceFiscale, String dataNascita, String telefono, String email){
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codiceFiscale = codiceFiscale;
+        this.dataNascita = dataNascita;
+        this.telefono = telefono;
+        this.email = email;
+    }
+    
     public Data(int id, String foodName, int avalAmount, int usedAmount) {
         this.id = id;
         this.foodName = foodName;
@@ -68,6 +83,38 @@ public class Data {
         this.out = out;
         this.date = date;
         this.time = time;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
+    }
+
+    public String getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Float getPagaOraria() {
