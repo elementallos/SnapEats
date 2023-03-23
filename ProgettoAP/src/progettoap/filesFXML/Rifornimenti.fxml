@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -34,14 +36,16 @@
             <Font name="Consolas Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="preview" alignment="TOP_LEFT" layoutX="505.0" layoutY="119.0" prefHeight="362.0" prefWidth="363.0" style="-fx-effect: none;" text="&lt;preview&gt;" textFill="#aaaaaa">
-         <font>
-            <Font name="Consolas" size="16.0" />
-         </font>
-      </Label>
       <Button layoutX="129.0" layoutY="274.0" mnemonicParsing="false" onAction="#magazzino" opacity="0.0" prefHeight="45.0" prefWidth="222.0" text="Button" />
       <Button layoutX="132.0" layoutY="333.0" mnemonicParsing="false" onAction="#rifornimenti" opacity="0.0" prefHeight="45.0" prefWidth="222.0" text="Button" />
       <Button layoutX="919.0" layoutY="555.0" mnemonicParsing="false" onAction="#logout" opacity="0.0" prefHeight="38.0" prefWidth="72.0" text="Button" />
       <Button layoutX="775.0" layoutY="555.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="115.0" text="Button" />
+      <TableView fx:id="table" layoutX="491.0" layoutY="117.0" prefHeight="366.0" prefWidth="392.0">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="48.0" text="ID" />
+          <TableColumn fx:id="foodName" prefWidth="252.0" text="ALIMENTO" />
+            <TableColumn fx:id="avalAmount" prefWidth="58.4000244140625" text="TOT" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

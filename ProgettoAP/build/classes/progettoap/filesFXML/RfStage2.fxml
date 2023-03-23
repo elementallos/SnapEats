@@ -35,7 +35,7 @@
             <Font name="HP Simplified Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="683.0" layoutY="215.0" text="CONTATTA FORNITORE" textFill="#cfcfcf">
+      <Label layoutX="718.0" layoutY="215.0" text="MOSTRA LISTA" textFill="#cfcfcf">
          <font>
             <Font name="HP Simplified Bold" size="20.0" />
          </font>
@@ -47,6 +47,6 @@
       </Label>
       <Line endX="137.20001220703125" layoutX="752.0" layoutY="285.0" startX="-82.79998779296875" stroke="#b1b1b1" />
       <Button layoutX="656.0" layoutY="143.0" mnemonicParsing="false" onAction="#ordina" opacity="0.0" prefHeight="47.0" prefWidth="245.0" text="Button" />
-      <Button layoutX="657.0" layoutY="203.0" mnemonicParsing="false" onAction="#contattaFornitore" opacity="0.0" prefHeight="47.0" prefWidth="245.0" text="Button" />
+      <Button layoutX="657.0" layoutY="203.0" mnemonicParsing="false" onAction="#modItems" opacity="0.0" prefHeight="47.0" prefWidth="245.0" text="Button" />
    </children>
 </AnchorPane>

@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -27,46 +28,23 @@ import javafx.stage.Stage;
  * mod
  * 
  */
-public class GestioneImpiegatiController implements Initializable {
+public class ImpModController implements Initializable {
 
     private Stage stage;
     private Scene scene;
     private Parent root;
+    
+    @FXML
+    private Label imp;
+    @FXML
+    private Label details;
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
-    
-    @FXML
-    public void aggiungi(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Imp1.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    @FXML
-    public void licenzia(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Imp2.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
-    @FXML
-    public void modifica(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Imp3.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    
+
     
     @FXML
     public void indietro(ActionEvent event) throws IOException {

@@ -1,10 +1,15 @@
 package progettoap.filesFXML;
 
+import com.mysql.cj.Session;
+import com.mysql.cj.protocol.Message;
 import java.io.IOException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -51,6 +56,7 @@ public class RifStage2Controller implements Initializable {
     @FXML
     private Label ultimoOrdineData;
     
+    private String tableName = "ordini_cibo";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,8 +67,8 @@ public class RifStage2Controller implements Initializable {
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
         createTableOrdini(ordini);
-        createTable(tableName);
-        loadDataOnTable(tableName);
+        createTable();
+        loadDataOnTable();
         
         ultimoOrdineData.setText(getUltimoOrdineData(ordini));
         ultimoOrdineData.setWrapText(true);
@@ -70,7 +76,7 @@ public class RifStage2Controller implements Initializable {
         db.closeConnection();
     }
     
-    private void createTable(String tableName){
+    private void createTable(){
         try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
             Statement stmt = conn.createStatement();
         ) {		      
@@ -111,7 +117,7 @@ public class RifStage2Controller implements Initializable {
     }
     
     
-    private void loadDataOnTable(String tableName){
+    private void loadDataOnTable(){
         String sql = "SELECT * FROM " + tableName;
         ObservableList<Data> dataList = FXCollections.observableArrayList();
 
@@ -180,18 +186,68 @@ public class RifStage2Controller implements Initializable {
     }
     
     @FXML
-    public void ordina(ActionEvent event){
-        System.out.println("Ordine effetuato!");
+    public void ordina(ActionEvent event) throws SQLException{
+        //  svuota il database 'ordini_cibo'
+            
+        //  quando si clicca il pulsante 'ordina' si eseguirà in automatico anche contatta fornitore
+        //  il metodo che contatta il fornitore prepara la lista per poi inserirla in una mail da mandare al rifornitore
+        String emailBody = getEmail();
+        svuotaDatabase();
     }
     
-    @FXML
-    public void contattaFornitore(ActionEvent event){
-        System.out.println("Fornitore contattato!");
+    private String getEmail(){
+        String content = "Ecco qui la lista di alimenti da comprare:";
+        
+        String sql = "SELECT * FROM " + tableName;
+
+        try{
+            // create the connection
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()) {
+                content += "\n" + 
+                        resultSet.getString("nome_alimento") + ": " + 
+                        resultSet.getInt("quantita") + " pezzi";
+            }
+        }
+        
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        return content;
     }
+    
+    public void svuotaDatabase() throws SQLException {
+        String sql = "TRUNCATE TABLE " + tableName;
+        
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.executeUpdate();
+        
+        loadDataOnTable();
+    }
+    
+    private void sendEmail(String content){
+        //
+    }
+
     
     @FXML
     public void indietro(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("Rifornimenti.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
+    public void modItems(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("AurelioPappada.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

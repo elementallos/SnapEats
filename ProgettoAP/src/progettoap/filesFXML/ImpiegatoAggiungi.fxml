@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.ImpAddController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="175.0" layoutX="87.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="349.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="175.0" layoutX="88.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="349.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="517.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="395.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="518.0" layoutY="82.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="395.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="214.0" layoutX="88.0" layoutY="301.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="349.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="214.0" layoutX="88.0" layoutY="301.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="349.0" />
+      <Label layoutX="130.0" layoutY="122.0" styleClass="labelTitle" stylesheets="@rifornimenti.css" text="GESTIONE IMPIEGATI" textFill="#ffee00">
+         <font>
+            <Font name="HP Simplified Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="873.0" layoutY="562.0" style="-fx-effect: none;" text="&gt; INDIETRO" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="871.0" layoutY="555.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="114.0" text="Button" />
+      <Label fx:id="imp" alignment="TOP_LEFT" layoutX="555.0" layoutY="114.0" prefHeight="374.0" prefWidth="321.0" style="-fx-effect: none;" stylesheets="@rifornimenti.css" text="&lt;impiegato&gt;" textFill="#868686" wrapText="true">
+         <font>
+            <Font name="HP Simplified Bold" size="20.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="142.0" layoutY="178.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="238.0" />
+      <Label layoutX="220.0" layoutY="191.0" style="-fx-effect: none;" stylesheets="@rifornimenti.css" text="AGGIUNGI" textFill="#cfcfcf">
+         <font>
+            <Font name="HP Simplified Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="142.0" layoutY="178.0" mnemonicParsing="false" opacity="0.0" prefHeight="50.0" prefWidth="238.0" text="Button" />
+      <Label fx:id="details" alignment="TOP_LEFT" layoutX="123.0" layoutY="326.0" prefHeight="163.0" prefWidth="280.0" style="-fx-effect: none;" stylesheets="@rifornimenti.css" text="&lt;details&gt;" textFill="#868686" wrapText="true">
+         <font>
+            <Font name="HP Simplified Bold" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

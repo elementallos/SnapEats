@@ -37,6 +37,18 @@ public class Data {
         this.usedAmount = usedAmount;
     }
     
+    public Data(int id, String nome, String cognome) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+    
+    public Data(int id, String foodName, int avalAmount) {
+        this.id = id;
+        this.foodName = foodName;
+        this.avalAmount = avalAmount;
+    }
+    
     public Data(String foodName, float price, int amount) {
         this.foodName = foodName;
         this.price = price;
