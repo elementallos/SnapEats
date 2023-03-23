@@ -10,7 +10,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -141,9 +140,6 @@ public class ImpiegatiController implements Initializable {
     
     private void setDetails(int impID){
         String res = "";
-        if(impID == 0){
-            impID = 1;
-        }
         
         try{
             Connection connection = db.connect();
