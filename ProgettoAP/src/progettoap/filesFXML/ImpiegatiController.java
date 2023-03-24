@@ -27,7 +27,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import progettoap.Data;
+import progettoap.DataWriter;
 import progettoap.Database;
 
 /**
@@ -166,6 +168,11 @@ public class ImpiegatiController implements Initializable {
     
     @FXML
     public void del(ActionEvent event){
+        boolean go = showAlert();
+        if(go == false){
+            return;
+        }
+        
         String sql = "DELETE FROM " + tableName + " WHERE id = " + (impID + 1);
 
         try{
@@ -188,11 +195,39 @@ public class ImpiegatiController implements Initializable {
         loadDataOnTable();
     }
     
+    private boolean showAlert(){
+        boolean bool = false;
+        
+        int choice = JOptionPane.showOptionDialog(
+            null, // parent component (null for default)
+            "Vuoi confermare l'operazione?", // message to display
+            "Conferma", // title of dialog box
+            JOptionPane.YES_NO_OPTION, // option type
+            JOptionPane.QUESTION_MESSAGE, // message type
+            null, // icon (null for default)
+            new String[] { "Conferma", "Annulla" }, // text for each button
+            "default"); // default button (null for none)
+
+        if (choice == JOptionPane.YES_OPTION) {
+            System.out.println("L'utente ha confermato l'operazione.");
+            bool = true;
+        } else if (choice == JOptionPane.NO_OPTION) {
+            System.out.println("L'utente ha annullato l'operazione.");
+        }
+        
+        return bool;
+    }
+    
     
     
     
     @FXML
     public void mod(ActionEvent event) throws IOException {
+        
+        DataWriter writer = new DataWriter("data.dat");
+        writer.writeIntToFile(impID);
+
+
         root = FXMLLoader.load(getClass().getResource("ImpiegatoModifica.fxml"));
         stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         scene = new Scene(root);

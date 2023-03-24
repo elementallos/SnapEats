@@ -27,18 +27,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
+import progettoap.DataReader;
 import progettoap.Database;
 
-/**
- * FXML Controller class
- *
- * @author HP
- * 
- * add
- * del
- * mod
- * 
- */
+
 public class ImpModController implements Initializable {
     private Database db = null;
     private String tableName = "impiegati";
@@ -58,6 +50,11 @@ public class ImpModController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         errMsg.setVisible(false);
+        try{
+            impID = getID();
+        }catch(Exception e){
+            System.out.println(e);
+        }
         
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
@@ -67,6 +64,12 @@ public class ImpModController implements Initializable {
         setData();
         
         db.closeConnection();
+    }
+    
+    private int getID() throws IOException{
+        DataReader reader = new DataReader("data.dat");
+        int value = reader.readIntFromFile();
+        return value;
     }
     
     private void setDetails(){
