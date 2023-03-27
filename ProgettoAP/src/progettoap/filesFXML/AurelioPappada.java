@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,19 +23,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
 import progettoap.Database;
+import progettoap.FoodOrdering;
+import progettoap.Order;
 
 /**
  * FXML Controller class
  *
  * @author HP
  */
-public class AurelioPappada implements Initializable {
+public class AurelioPappada extends RifStage2Controller implements Initializable {
 
     private Database db = null;
     
@@ -44,17 +48,14 @@ public class AurelioPappada implements Initializable {
     
     // inserire dati tableview
     @FXML
-    private TableView<Data> table;
+    private TableView<Order> table;
     @FXML
-    private TableColumn<Data, String> foodName;
+    private TableColumn<Order, String> foodName;
     @FXML
-    private TableColumn<Data, Float> price;
+    private TableColumn<Order, Float> price;
     @FXML
-    private TableColumn<Data, Integer> amount;
+    private TableColumn<Order, Integer> quantity;
     
-    
-    @FXML
-    private Label ultimoOrdineData;
     
     private String tableName = "ordini_cibo";
     
@@ -72,46 +73,87 @@ public class AurelioPappada implements Initializable {
     }
     
     
-    private void loadDataOnTable(){
+    private void loadDataOnTable() {
         String sql = "SELECT * FROM " + tableName;
-        ObservableList<Data> dataList = FXCollections.observableArrayList();
+        ObservableList<Order> orderList = FXCollections.observableArrayList();
 
-        try{
+        try {
             // create the connection
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-
-
-            // Define table columns and map them to Data class properties
+            
             foodName.setCellValueFactory(new PropertyValueFactory<>("foodName"));
             price.setCellValueFactory(new PropertyValueFactory<>("price"));
-            amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
-            // Add columns to TableView
-            /*table.getColumns().add(foodName);
-            table.getColumns().add(price);
-            table.getColumns().add(amount);*/
+            price.setCellFactory(column -> new TableCell<Order, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(String.format("%.2f", item));
+                    }
+                }
+            });
+            quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
             while (resultSet.next()) {
-                Data data = new Data(
+                Order order = new Order(
+                    resultSet.getInt("id"),
                     resultSet.getString("nome_alimento"),
                     resultSet.getFloat("prezzo"),
-                    resultSet.getInt("quantita")
+                    (int) (Math.random() * 26 + 25), // Generate a random quantity between 25 and 50
+                    resultSet.getString("data")
                 );
-                dataList.add(data);
+                orderList.add(order);
             }
 
             // Add data to TableView
-            table.setItems(dataList);
-        }
-
-        catch(Exception e){
+            table.setItems(orderList);
+        } 
+        
+        catch (Exception e) {
             System.out.println(e);
         }
     }
 
+
+    public void random_items(ActionEvent event) throws SQLException{
+        svuotaDatabase();
+        
+        // now add items
+        append_random_items(event);
+    }
+    
+    public void append_random_items(ActionEvent event) throws SQLException{
+        // retrieve data
+        FoodOrdering food = new FoodOrdering(
+                "localhost:3306",
+                "root",
+                "",
+                "progettoap",
+                "dispensa",
+                "ordini_cibo"
+        );
+        
+        int Min = 10, Max = 30;
+        int n = Min + (int)(Math.random() * ((Max - Min) + 1));
+        ArrayList<String> list = food.getFoodNames(n);
+        
+        // upload data
+        food.insertOrders(list, Min, Max);
+        loadDataOnTable();
+    }
+    
+    public void clear_items(ActionEvent event) throws SQLException{
+        svuotaDatabase();
+        loadDataOnTable();
+    }
+    
+    
+    
     
     @FXML
     public void indietro(ActionEvent event) throws IOException {

@@ -22,12 +22,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
 import progettoap.Database;
+import progettoap.Order;
 
 /**
  * FXML Controller class
@@ -132,6 +134,17 @@ public class RifStage2Controller implements Initializable {
             // Define table columns and map them to Data class properties
             foodName.setCellValueFactory(new PropertyValueFactory<>("foodName"));
             price.setCellValueFactory(new PropertyValueFactory<>("price"));
+            price.setCellFactory(column -> new TableCell<Data, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(String.format("%.2f", item));
+                    }
+                }
+            });
             amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
             // Add columns to TableView
