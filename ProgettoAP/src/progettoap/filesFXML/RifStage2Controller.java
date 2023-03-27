@@ -1,9 +1,6 @@
 package progettoap.filesFXML;
 
-import com.mysql.cj.Session;
-import com.mysql.cj.protocol.Message;
 import java.io.IOException;
-import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +26,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
 import progettoap.Database;
-import progettoap.Order;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import progettoap.EmailSender;
 
 /**
  * FXML Controller class
@@ -205,6 +210,7 @@ public class RifStage2Controller implements Initializable {
         //  quando si clicca il pulsante 'ordina' si eseguirà in automatico anche contatta fornitore
         //  il metodo che contatta il fornitore prepara la lista per poi inserirla in una mail da mandare al rifornitore
         String emailBody = getEmail();
+        sendEmail(emailBody);
         svuotaDatabase();
     }
     
@@ -244,8 +250,11 @@ public class RifStage2Controller implements Initializable {
         loadDataOnTable();
     }
     
-    private void sendEmail(String content){
-        //
+    private void sendEmail(String body){
+        System.out.println(
+                "\n\n\nto 'rifornitore@snapeats.it'"
+                + "\n\nLISTA RIFORNIMENTI\n"
+                + body);
     }
 
     
