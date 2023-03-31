@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,14 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
 import progettoap.Database;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import progettoap.EmailSender;
 
 /**
@@ -209,13 +202,13 @@ public class RifStage2Controller implements Initializable {
             
         //  quando si clicca il pulsante 'ordina' si eseguirà in automatico anche contatta fornitore
         //  il metodo che contatta il fornitore prepara la lista per poi inserirla in una mail da mandare al rifornitore
-        String emailBody = getEmail();
+        ArrayList<String[]> emailBody = getEmail();
         sendEmail(emailBody);
         svuotaDatabase();
     }
     
-    private String getEmail(){
-        String content = "Ecco qui la lista di alimenti da comprare:";
+    private ArrayList<String[]> getEmail(){
+        ArrayList<String[]> content = new ArrayList<>();
         
         String sql = "SELECT * FROM " + tableName;
 
@@ -227,9 +220,7 @@ public class RifStage2Controller implements Initializable {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()) {
-                content += "\n" + 
-                        resultSet.getString("nome_alimento") + ": " + 
-                        resultSet.getInt("quantita") + " pezzi";
+                content.add(new String[] {resultSet.getString("nome_alimento"), Integer.toString(resultSet.getInt("quantita"))});
             }
         }
         
@@ -250,11 +241,26 @@ public class RifStage2Controller implements Initializable {
         loadDataOnTable();
     }
     
-    private void sendEmail(String body){
-        System.out.println(
-                "\n\n\nto 'rifornitore@snapeats.it'"
-                + "\n\nLISTA RIFORNIMENTI\n"
-                + body);
+    private void sendEmail(ArrayList<String[]> data){
+        
+        // Create the table format
+        StringBuilder table = new StringBuilder();
+        table.append("<table>");
+        for (String[] row : data) {
+            table.append("<tr>");
+            for (String cell : row) {
+                table.append("<td>").append(cell).append("</td>");
+            }
+            table.append("</tr>");
+        }
+        table.append("</table>");
+
+        // Set the email body to the table format
+        String emailBody = "<html><body>" + table.toString() + "</body></html>";
+        
+        String rifornitore = "ardeangabbo@gmail.com";
+        EmailSender emailer = new EmailSender();
+        emailer.sendEmail(rifornitore, emailBody);
     }
 
     
