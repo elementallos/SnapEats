@@ -86,7 +86,7 @@ public class ImpiegatiController implements Initializable {
     }    
     
     private void createTable(){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+        try(Connection conn = db.connect();
             Statement stmt = conn.createStatement();
         ) {		      
             String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
@@ -97,6 +97,9 @@ public class ImpiegatiController implements Initializable {
                     + "codice_fiscale varchar(16),"
                     + "telefono varchar(15),"
                     + "email varchar(60),"
+                    + "ore_lavorate float,"
+                    + "stipendio float,"
+                    + "paga_oraria float,"
                     + "PRIMARY KEY (id)"
                     + ");";
             stmt.executeUpdate(sql); 	  
@@ -209,10 +212,7 @@ public class ImpiegatiController implements Initializable {
             "default"); // default button (null for none)
 
         if (choice == JOptionPane.YES_OPTION) {
-            System.out.println("L'utente ha confermato l'operazione.");
             bool = true;
-        } else if (choice == JOptionPane.NO_OPTION) {
-            System.out.println("L'utente ha annullato l'operazione.");
         }
         
         return bool;
@@ -237,8 +237,6 @@ public class ImpiegatiController implements Initializable {
     
     @FXML
     public void add(ActionEvent event) throws IOException {
-        System.out.println(impID);
-        
         root = FXMLLoader.load(getClass().getResource("ImpiegatoAggiungi.fxml"));
         stage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         scene = new Scene(root);

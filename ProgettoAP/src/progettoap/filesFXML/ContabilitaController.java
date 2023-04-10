@@ -7,7 +7,6 @@ package progettoap.filesFXML;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -22,7 +21,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,8 +46,6 @@ public class ContabilitaController implements Initializable {
     
     @FXML
     private Label listaMov;
-    @FXML
-    private Label recentMov;
      
     
     // inserire dati tableview
@@ -71,19 +67,18 @@ public class ContabilitaController implements Initializable {
         // FIXME
         listaMov.setFont(new Font("Consolas", 20));
         listaMov.setText("lista movimenti -->");
-        recentMov.setText(getUltimoOrdineData(tableName));
         
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        createTable(tableName);
-        loadDataOnTable(tableName, "");
+        createTable();
+        loadDataOnTable("");
         
         db.closeConnection();
     }
     
-    private void createTable(String tableName){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
+    private void createTable(){
+        try(Connection conn = db.connect();
             Statement stmt = conn.createStatement();
         ) {		      
             String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
@@ -105,7 +100,7 @@ public class ContabilitaController implements Initializable {
         }
     }
     
-    private void loadDataOnTable(String tableName, String mod){
+    private void loadDataOnTable(String mod){
         LocalDate dateObj = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String dataAttuale = dateObj.format(formatter);
@@ -150,11 +145,6 @@ public class ContabilitaController implements Initializable {
             in.setCellValueFactory(new PropertyValueFactory<>("in"));
             out.setCellValueFactory(new PropertyValueFactory<>("out"));
 
-            // Add columns to TableView
-            /*table.getColumns().add(foodName);
-            table.getColumns().add(price);
-            table.getColumns().add(amount);*/
-
             while (resultSet.next()) {
                 Data data = new Data(
                     resultSet.getFloat("entrate_netto"),
@@ -172,34 +162,6 @@ public class ContabilitaController implements Initializable {
         catch(Exception e){
             System.out.println(e);
         }
-    }
-    
-    
-    private String getUltimoOrdineData(String tableName){
-        String res = "< ULTIMO ORDINE >\n";
-        
-        db = new Database(
-                "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
-        );
-        
-        try{
-            Connection connection = db.connect();
-
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " ORDER BY ID DESC LIMIT 1");
-            
-            if (resultSet.next()) {
-               res = res + "Data: \t" + resultSet.getString("data");
-               res = res + "\nOra: \t" + resultSet.getString("ora");
-            }
-        }
-        
-        catch(Exception e){
-            System.out.println(e);
-        }
-        
-        db.closeConnection();
-        return res;
     }
     
     
@@ -226,6 +188,15 @@ public class ContabilitaController implements Initializable {
     }
     
     @FXML
+    public void movimenti(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Movimenti.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
     public void stipendi(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("Stipendi.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -239,18 +210,18 @@ public class ContabilitaController implements Initializable {
     @FXML
     public void showMovDD(ActionEvent event) {
         listaMov.setText("Giornaliero");
-        loadDataOnTable(tableName, "gg");
+        loadDataOnTable("gg");
     }
     
     @FXML
     public void showMovMM(ActionEvent event) {
         listaMov.setText("Mensile");
-        loadDataOnTable(tableName, "mm");
+        loadDataOnTable("mm");
     }
     
     @FXML
     public void showMovAA(ActionEvent event) {
         listaMov.setText("Annuale");
-        loadDataOnTable(tableName, "aa");
+        loadDataOnTable("aa");
     }
 }

@@ -68,20 +68,10 @@ public class Database {
     
     public void closeConnection(){
         try{
-            connection.close();
+            if (connection != null) {
+                connection.close();
+            }
         }catch(Exception e){
-            System.out.println(e);
-        }
-    }
-    
-    public void createTable(String tableName){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
-            Statement stmt = conn.createStatement();
-        ) {		      
-            String sql = "CREATE TABLE IF NOT EXISTS " + tableName;
-            stmt.executeUpdate(sql);
-            System.out.println("Database created successfully...");   	  
-        } catch (Exception e) {
             System.out.println(e);
         }
     }

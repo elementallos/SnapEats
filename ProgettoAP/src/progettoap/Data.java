@@ -16,12 +16,18 @@ public class Data {
     private Integer usedAmount = null;
     private Float price = null;
     private Integer amount = null;
+    private Float quantity = null;
     
-    // per movimenti (parziale)
+    // per movimenti
     private String date = null;
     private String time = null;
-    private Float in = null;
-    private Float out = null;
+    private Float inLordo = null;
+    private Float inNetto = null;
+    private Float outTot = null;
+    private Float outPag = null;
+    private Float outImp = null;
+    private Float outRif = null;
+    private Float iva = null;
     
     // per stipendi
     private String nome = null;
@@ -36,6 +42,24 @@ public class Data {
     private String telefono = null;
     private String email = null;
 
+    public Data(int id, float inNetto, float inLordo, float iva, float outPag, float outImp, float outRif, float outTot, String date, String time){
+        this.id = id;
+        this.inNetto = inNetto;
+        this.inLordo = inLordo;
+        this.iva = iva;
+        this.outTot = outTot;
+        this.outPag = outPag;
+        this.outImp = outImp;
+        this.outRif = outRif;
+        this.date = date;
+        this.time = time;
+    }
+    
+    public Data(String foodName, float quantity){
+        this.foodName = foodName;
+        this.quantity = quantity;
+    }
+    
     public Data(String nome, String cognome, String codiceFiscale, String dataNascita, String telefono, String email){
         this.nome = nome;
         this.cognome = cognome;
@@ -79,50 +103,66 @@ public class Data {
     }
     
     public Data(float in, float out, String date, String time){
-        this.in = in;
-        this.out = out;
+        this.inNetto = in;
+        this.outTot = out;
         this.date = date;
         this.time = time;
     }
 
-    public String getCodiceFiscale() {
-        return codiceFiscale;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCodiceFiscale(String codiceFiscale) {
-        this.codiceFiscale = codiceFiscale;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getDataNascita() {
-        return dataNascita;
+    public String getFoodName() {
+        return foodName;
     }
 
-    public void setDataNascita(String dataNascita) {
-        this.dataNascita = dataNascita;
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public Integer getAvalAmount() {
+        return avalAmount;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setAvalAmount(Integer avalAmount) {
+        this.avalAmount = avalAmount;
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getUsedAmount() {
+        return usedAmount;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsedAmount(Integer usedAmount) {
+        this.usedAmount = usedAmount;
     }
 
-    public Float getPagaOraria() {
-        return pagaOraria;
+    public Float getPrice() {
+        return price;
     }
 
-    public void setPagaOraria(Float pagaOraria) {
-        this.pagaOraria = pagaOraria;
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public Float getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Float quantity) {
+        this.quantity = quantity;
     }
 
     public String getDate() {
@@ -141,70 +181,60 @@ public class Data {
         this.time = time;
     }
 
-    public Float getIn() {
-        return in;
+    public Float getInLordo() {
+        return inLordo;
     }
 
-    public void setIn(Float in) {
-        this.in = in;
+    public void setInLordo(Float inLordo) {
+        this.inLordo = inLordo;
     }
 
-    public Float getOut() {
-        return out;
+    public Float getInNetto() {
+        return inNetto;
     }
 
-    public void setOut(Float out) {
-        this.out = out;
+    public void setInNetto(Float inNetto) {
+        this.inNetto = inNetto;
     }
 
+    public Float getIva() {
+        return iva;
+    }
+
+    public void setIva(Float inNetto) {
+        this.iva = iva;
+    }
     
-    // getters and setters
-    public int getId() {
-        return id;
+    public Float getOutTot() {
+        return outTot;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOutTot(Float outTot) {
+        this.outTot = outTot;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public Float getOutPag() {
+        return outPag;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setOutPag(Float outPag) {
+        this.outPag = outPag;
     }
 
-    public int getAvalAmount() {
-        return avalAmount;
+    public Float getOutImp() {
+        return outImp;
     }
 
-    public void setAvalAmount(int avalAmount) {
-        this.avalAmount = avalAmount;
+    public void setOutImp(Float outImp) {
+        this.outImp = outImp;
     }
 
-    public int getUsedAmount() {
-        return usedAmount;
+    public Float getOutRif() {
+        return outRif;
     }
 
-    public void setUsedAmount(int usedAmount) {
-        this.usedAmount = usedAmount;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setOutRif(Float outRif) {
+        this.outRif = outRif;
     }
 
     public String getNome() {
@@ -239,5 +269,46 @@ public class Data {
         this.stipendio = stipendio;
     }
 
+    public Float getPagaOraria() {
+        return pagaOraria;
+    }
+
+    public void setPagaOraria(Float pagaOraria) {
+        this.pagaOraria = pagaOraria;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
+    }
+
+    public String getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    
 }
 

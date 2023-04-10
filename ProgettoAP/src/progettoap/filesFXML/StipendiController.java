@@ -9,8 +9,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,9 +26,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import progettoap.Data;
+import progettoap.DataReader;
+import progettoap.DataWriter;
 import progettoap.Database;
 
 /**
@@ -36,6 +41,8 @@ import progettoap.Database;
  */
 public class StipendiController implements Initializable {
     private Database db = null;
+    private int impID = 0;
+    private String tableName = "impiegati";
     
     private Stage stage;
     private Scene scene;
@@ -43,6 +50,11 @@ public class StipendiController implements Initializable {
     
     @FXML
     private Label bilancio;
+    @FXML
+    private Label data;
+    
+    @FXML
+    private TextField hh, ss;
     
     // inserire dati tableview
     @FXML
@@ -61,19 +73,72 @@ public class StipendiController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String tableName = "stipendi";
-        
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        createTable(tableName);
-        loadDataOnTable(tableName);
-        outputBalance();
+        createTable();
+        loadDataOnTable();
+        double val = outputBalance();
+        outputData(0);
         
         db.closeConnection();
+        
+        table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                int selectedIndex = table.getSelectionModel().getSelectedIndex();
+                impID = selectedIndex;
+                
+                outputData(impID);
+            }
+        });
+        
+        // scalare i soldi dal bilancio per pagare gli indipendenti
+        try{
+            String filename = "balance.dat";
+            if(checkFirstDayOfMonth() == true){
+                DataWriter w = new DataWriter(filename);
+                DataReader r = new DataReader(filename);
+                
+                double newVal = r.readDoubleFromFile() - val;
+                w.writeDoubleToFile(newVal, true);
+                
+                resetOreLavorate();
+                loadDataOnTable();
+                outputBalance();
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
     
-    private void createTable(String tableName){
+    public void salva() throws SQLException{
+        float newSal = Float.parseFloat(hh.getText()) * Float.parseFloat(ss.getText());
+        String sql = "UPDATE " + tableName + " SET " + 
+                "ore_lavorate = '" + hh.getText() + "', " +
+                "paga_oraria = '" + ss.getText() + "', " +
+                "stipendio = '" + Float.toString(newSal) + "'" +
+                " WHERE id = " + (impID + 1);
+
+        try{
+            // create the connection
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            int rowsInserted = statement.executeUpdate(sql);
+
+            if (rowsInserted > 0) {
+                System.out.println("A row has been updated");
+            }
+            
+            loadDataOnTable();
+        }
+
+        catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    private void createTable(){
         try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
             Statement stmt = conn.createStatement();
         ) {		      
@@ -81,6 +146,10 @@ public class StipendiController implements Initializable {
                     + "id int NOT NULL,"
                     + "nome varchar(40),"
                     + "cognome varchar(40),"
+                    + "data_nascita varchar(10),"
+                    + "codice_fiscale varchar(16),"
+                    + "telefono varchar(15),"
+                    + "email varchar(60),"
                     + "ore_lavorate float,"
                     + "stipendio float,"
                     + "paga_oraria float,"
@@ -92,7 +161,7 @@ public class StipendiController implements Initializable {
         }
     }
     
-    private void loadDataOnTable(String tableName){
+    private void loadDataOnTable(){
         String sql = "SELECT * FROM " + tableName;
         ObservableList<Data> dataList = FXCollections.observableArrayList();
 
@@ -110,12 +179,6 @@ public class StipendiController implements Initializable {
             hours.setCellValueFactory(new PropertyValueFactory<>("oreLavorate"));
             salary.setCellValueFactory(new PropertyValueFactory<>("stipendio"));
             h.setCellValueFactory(new PropertyValueFactory<>("pagaOraria"));
-
-            // Add columns to TableView
-            /*table.getColumns().add(name);
-            table.getColumns().add(surname);
-            table.getColumns().add(hours);
-            table.getColumns().add(salary);*/
 
             while (resultSet.next()) {
                 Data data = new Data(
@@ -138,30 +201,84 @@ public class StipendiController implements Initializable {
     }
     
     
-    private void outputBalance(){
+    private double outputBalance(){
         try{
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT SUM(stipendio) FROM stipendi");
+            ResultSet resultSet = statement.executeQuery("SELECT SUM(stipendio) FROM " + tableName);
             
-            // to change!!
             double sum = 0;
             while (resultSet.next()){
                 float c = resultSet.getFloat(1);
-                sum = sum+c;
+                sum = (double) c;
             }
             
-            double bal = sum * 1.5;
+            DataReader reader = new DataReader("balance.dat");
+            double bal = reader.readDoubleFromFile();
             bilancio.setText(
                     "Bilancio totale:        € " + bal + "\n" +
                     "Stipendi da pagare:     € "+ sum);
+            
+            return sum;
         }
         
         catch(Exception e){
             System.out.println(e);
         }
+        
+        return 0;
     }
+    
+    private void outputData(int index){
+        String res = "";
+        
+        try{
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id = " + (impID + 1));
+            
+            if (resultSet.next()) {
+                res = "NOME:\n" + resultSet.getString("nome") +
+                        "\nCOGNOME:\n" + resultSet.getString("cognome");
+                hh.setText(Float.toString(resultSet.getFloat("ore_lavorate")));
+                ss.setText(Float.toString(resultSet.getFloat("paga_oraria")));
+            }
+        }
+        
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        data.setText(res);
+    }
+    
+    private boolean checkFirstDayOfMonth() {
+        LocalDate currentDate = LocalDate.now();
+        if (currentDate.getDayOfMonth() == 1) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void resetOreLavorate() {
+        try {
+            Connection connection = db.connect();
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("UPDATE " + tableName + " SET ore_lavorate = 0, stipendio = 0");
+
+            connection.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    
+    
+    
+    
     
     @FXML
     public void logout(ActionEvent event) throws IOException {

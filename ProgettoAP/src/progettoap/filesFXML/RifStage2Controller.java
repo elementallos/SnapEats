@@ -19,6 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -84,7 +86,7 @@ public class RifStage2Controller implements Initializable {
                     + "id int NOT NULL,"
                     + "nome_alimento varchar(40),"
                     + "prezzo float,"
-                    + "quantita int,"
+                    + "quantita float,"
                     + "data varchar(10),"
                     + "PRIMARY KEY (id)"
                     + ");";
@@ -203,9 +205,40 @@ public class RifStage2Controller implements Initializable {
         //  quando si clicca il pulsante 'ordina' si eseguirà in automatico anche contatta fornitore
         //  il metodo che contatta il fornitore prepara la lista per poi inserirla in una mail da mandare al rifornitore
         ArrayList<String[]> emailBody = getEmail();
-        sendEmail(emailBody);
-        svuotaDatabase();
+        if(emailBody.isEmpty() != true){
+            sendEmail(emailBody);
+            sendInfoToMovimenti();
+            svuotaDatabase();
+        }else{
+            System.out.println("Cannot order empty list!");
+        }
     }
+    
+    private void sendInfoToMovimenti() {
+        float total = 0;
+
+        try (Connection conn = db.connect();) {
+            // Create a statement to execute the SQL query
+            String query = "SELECT prezzo, quantita FROM " + tableName;
+            Statement stmt = conn.createStatement();
+
+            // Execute the SQL query and iterate through the results
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                // Add the product of prezzo and quantita to the total
+                float prezzo = rs.getFloat("prezzo");
+                int quantita = rs.getInt("quantita");
+                total += prezzo * quantita;
+            }
+        } catch (SQLException ex) {
+            // Handle any SQL exceptions
+            System.err.println("SQLException: " + ex.getMessage());
+        }
+        
+        // now it has the total
+        System.out.println(total);
+    }
+
     
     private ArrayList<String[]> getEmail(){
         ArrayList<String[]> content = new ArrayList<>();
@@ -261,6 +294,17 @@ public class RifStage2Controller implements Initializable {
         String rifornitore = "ardeangabbo@gmail.com";
         EmailSender emailer = new EmailSender();
         emailer.sendEmail(rifornitore, emailBody);
+        
+        // when it's done, an alert pops out
+        alert(rifornitore);
+    }
+    
+    public void alert(String rifornitore){
+        Alert alert = new Alert(AlertType.INFORMATION,"");
+        alert.setTitle("Email Sender");  //warning box title
+        alert.setHeaderText("Mail mandata con successo!");
+        alert.setContentText("La mail è stata mandata con successo al rifornitore.\n\nRifornitore: " + rifornitore);
+        alert.showAndWait();
     }
 
     

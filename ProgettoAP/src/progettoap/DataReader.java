@@ -17,4 +17,11 @@ public class DataReader {
         dataIn.close();
         return value;
     }
+    
+    public double readDoubleFromFile() throws IOException {
+        DataInputStream dataIn = new DataInputStream(new FileInputStream(fileName));
+        double value = dataIn.readDouble();
+        dataIn.close();
+        return value;
+    }
 }

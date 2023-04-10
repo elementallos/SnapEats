@@ -7,14 +7,10 @@ package progettoap.filesFXML;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import progettoap.Data;
 import progettoap.Database;
 
 /**
@@ -61,30 +55,9 @@ public class ImpAddController implements Initializable {
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        createTable(tableName);
         
         db.closeConnection();
-    }
-    
-    private void createTable(String tableName){
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/progettoap", "root", "");
-            Statement stmt = conn.createStatement();
-        ) {		      
-            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
-                    + "id int NOT NULL,"
-                    + "nome varchar(40),"
-                    + "cognome varchar(40),"
-                    + "data_nascita varchar(10),"
-                    + "codice_fiscale varchar(16),"
-                    + "telefono varchar(15),"
-                    + "email varchar(60),"
-                    + "PRIMARY KEY (id)"
-                    + ");";
-            stmt.executeUpdate(sql); 	  
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }   
+    }  
     
     @FXML
     public void add(ActionEvent event) throws SQLException{

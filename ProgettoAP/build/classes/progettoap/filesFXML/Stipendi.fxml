@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
@@ -11,27 +12,29 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.StipendiController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="129.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="742.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="130.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="742.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="78.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="573.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="79.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="573.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="713.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="210.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="407.0" layoutX="713.0" layoutY="97.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="210.0" />
       <Label layoutX="777.0" layoutY="563.0" style="-fx-effect: none;" text="&gt; INDIETRO   LOGOUT" textFill="WHITE">
          <font>
             <Font name="Consolas Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="441.0" layoutY="123.0" styleClass="labelTitle" text="STIPENDI" textFill="#ffee00">
+      <Label layoutX="297.0" layoutY="123.0" styleClass="labelTitle" text="STIPENDI" textFill="#ffee00">
          <font>
             <Font name="HP Simplified Bold" size="30.0" />
          </font>
       </Label>
       <Button layoutX="919.0" layoutY="555.0" mnemonicParsing="false" onAction="#logout" opacity="0.0" prefHeight="38.0" prefWidth="72.0" text="Button" />
       <Button layoutX="775.0" layoutY="555.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="115.0" text="Button" />
-      <Line endX="142.60003662109375" endY="224.79998779296875" layoutX="678.0" layoutY="175.0" startX="-500.5999755859375" startY="224.79998779296875" stroke="#bcbcbc" />
-      <Label fx:id="bilancio" layoutX="194.0" layoutY="407.0" prefHeight="86.0" prefWidth="629.0" text="&lt;bilancio totale&gt;" textFill="#909090">
+      <Line endX="-73.5999755859375" endY="224.79998779296875" layoutX="687.0" layoutY="171.0" startX="-570.7999877929688" startY="224.79998779296875" stroke="#bcbcbc" />
+      <Label fx:id="bilancio" layoutX="116.0" layoutY="405.0" prefHeight="86.0" prefWidth="498.0" text="&lt;bilancio totale&gt;" textFill="#909090">
          <font>
-            <Font name="Consolas" size="17.0" />
+            <Font name="Consolas" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="table" layoutX="168.0" layoutY="190.0" prefHeight="189.0" prefWidth="666.0">
+      <TableView fx:id="table" layoutX="100.0" layoutY="191.0" prefHeight="190.0" prefWidth="514.0">
         <columns>
           <TableColumn fx:id="name" prefWidth="163.0" text="NOME" />
           <TableColumn fx:id="surname" prefWidth="187.2000732421875" text="COGNOME" />
@@ -40,5 +43,34 @@
             <TableColumn fx:id="h" prefWidth="98.4000244140625" text="PAGA ORARIA" />
         </columns>
       </TableView>
+      <Label alignment="CENTER" layoutX="736.0" layoutY="122.0" prefHeight="31.0" prefWidth="163.0" text="GESTIONE" textFill="#5b5b5b">
+         <font>
+            <Font name="Consolas Bold" size="19.0" />
+         </font>
+      </Label>
+      <TextField fx:id="hh" layoutX="737.0" layoutY="321.0" prefHeight="26.0" prefWidth="163.0" promptText="Ore lavorate" />
+      <TextField fx:id="ss" layoutX="737.0" layoutY="385.0" prefHeight="26.0" prefWidth="163.0" promptText="Paga oraria" />
+      <Label fx:id="data" alignment="TOP_LEFT" layoutX="737.0" layoutY="163.0" prefHeight="122.0" prefWidth="163.0" text="&lt;data&gt;" textFill="#5b5b5b" wrapText="true">
+         <font>
+            <Font name="Consolas" size="15.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="45.0" layoutX="731.0" layoutY="441.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="175.0" />
+      <Label alignment="CENTER" layoutX="737.0" layoutY="447.0" prefHeight="31.0" prefWidth="163.0" text="SALVA" textFill="#9e9e9e">
+         <font>
+            <Font name="Consolas Bold" size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="731.0" layoutY="440.0" mnemonicParsing="false" onAction="#salva" opacity="0.0" prefHeight="45.0" prefWidth="175.0" text="Button" />
+      <Label layoutX="737.0" layoutY="300.0" text="Ore Lavorate" textFill="#565656">
+         <font>
+            <Font name="Consolas" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="741.0" layoutY="362.0" text="Paga Oraria" textFill="#565656">
+         <font>
+            <Font name="Consolas" size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

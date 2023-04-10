@@ -4,40 +4,46 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.AurelioPappada">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="74.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="476.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="74.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="476.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="611.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="328.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="611.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="328.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="68.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="68.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="224.0" layoutX="652.0" layoutY="189.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="278.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="224.0" layoutX="652.0" layoutY="189.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="278.0" />
       <Label layoutX="875.0" layoutY="562.0" style="-fx-effect: none;" text="&gt; INDIETRO" textFill="WHITE">
          <font>
             <Font name="Consolas Bold" size="20.0" />
          </font>
       </Label>
       <Button layoutX="875.0" layoutY="561.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="23.0" prefWidth="110.0" text="Button" />
-      <TableView fx:id="table" layoutX="124.0" layoutY="125.0" prefHeight="350.0" prefWidth="376.0">
+      <TableView fx:id="table" layoutX="107.0" layoutY="125.0" prefHeight="350.0" prefWidth="446.0">
         <columns>
-          <TableColumn fx:id="foodName" prefWidth="179.99998474121094" text="ALIMENTO" />
-          <TableColumn fx:id="price" minWidth="0.0" prefWidth="76.800048828125" text="PREZZO" />
-            <TableColumn fx:id="quantity" prefWidth="83.199951171875" text="QUANTITA" />
+          <TableColumn fx:id="foodName" prefWidth="171.99998474121094" text="ALIMENTO" />
+            <TableColumn fx:id="usedAmount" prefWidth="128.0" text="QUANTITA USATA" />
+            <TableColumn fx:id="avalAmount" prefWidth="124.79998779296875" text="QUANTITA DISP." />
         </columns>
       </TableView>
-      <Label layoutX="651.0" layoutY="116.0" text="Inserisci alimenti" textFill="#919191">
+      <Label fx:id="foo" layoutX="675.0" layoutY="212.0" prefHeight="22.0" prefWidth="206.0" text="&lt;alimento&gt;" textFill="#919191">
          <font>
             <Font name="Consolas Bold" size="16.0" />
          </font></Label>
-      <Button layoutX="651.0" layoutY="169.0" mnemonicParsing="false" onAction="#random_items" text="random_items" />
-      <Button layoutX="651.0" layoutY="201.0" mnemonicParsing="false" onAction="#append_random_items" text="append_random_items" />
-      <Button layoutX="651.0" layoutY="235.0" mnemonicParsing="false" onAction="#clear_items" text="clear_items" />
-      <Label alignment="TOP_LEFT" layoutX="651.0" layoutY="408.0" prefHeight="66.0" prefWidth="247.0" text="&gt; this is just temp, substitute with real data" textFill="#919191" wrapText="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="48.0" layoutX="675.0" layoutY="347.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="232.0" />
+      <Label layoutX="766.0" layoutY="360.0" text="SALVA" textFill="#919191">
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="675.0" layoutY="347.0" mnemonicParsing="false" onAction="#salva" opacity="0.0" prefHeight="48.0" prefWidth="232.0" text="Button" />
+      <Label layoutX="675.0" layoutY="252.0" prefHeight="26.0" prefWidth="206.0" text="Quantità:" textFill="#919191">
          <font>
             <Font name="Consolas Bold" size="16.0" />
          </font>
       </Label>
+      <TextField fx:id="bar" layoutX="675.0" layoutY="279.0" prefHeight="26.0" prefWidth="232.0" />
    </children>
 </AnchorPane>

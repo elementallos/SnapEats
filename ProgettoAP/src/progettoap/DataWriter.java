@@ -21,4 +21,17 @@ public class DataWriter {
         dataOut.writeInt(value);
         dataOut.close();
     }
+    
+    public void writeDoubleToFile(double value, boolean reset) throws IOException {
+        File file = new File(fileName);
+        if (reset && file.exists()) {
+            file.delete();
+        }
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(fileName, !reset));
+        dataOut.writeDouble(value);
+        dataOut.close();
+    }
 }

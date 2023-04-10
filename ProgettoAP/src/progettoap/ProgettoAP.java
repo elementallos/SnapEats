@@ -5,6 +5,11 @@
  */
 package progettoap;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,14 +25,16 @@ public class ProgettoAP extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        createBalance();
+        
         stage.setTitle("SnapEats");
         stage.getIcons().add(new Image(ProgettoAP.class.getResourceAsStream("/progettoap/images/snapeats_logo_rounded.png")));
         stage.setResizable(false);
-        Parent root = FXMLLoader.load(getClass().getResource("filesFXML/AurelioPappada.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("filesFXML/MainApp.fxml"));
         
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
+        
         stage.show();
     }
 
@@ -38,10 +45,35 @@ public class ProgettoAP extends Application {
         launch(args);
     }
     
+    private void createBalance(){
+        String filename = "balance.dat";
+        try {
+            DataWriter balance = new DataWriter(filename);
+            DataReader actualBal = new DataReader(filename);
+            double value = checkFirstDayOfMonth();
+            double newBal = actualBal.readDoubleFromFile() + value;
+            
+            balance.writeDoubleToFile(newBal, false);
+            //balance.writeDoubleToFile(56770.0, true);
+        } catch (IOException ex) {
+            Logger.getLogger(ProgettoAP.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public double checkFirstDayOfMonth() {
+        LocalDate currentDate = LocalDate.now();
+
+        if (currentDate.getDayOfMonth() == 1) {
+            Random random = new Random();
+            double randomDouble = 45000 + (60000 - 45000) * random.nextDouble();
+            return randomDouble;
+        }
+        return 0;
+    }
 }
 
 /*
-Tribute to Jupie (september 12, 2023)
+Tribute to Jupie (september 12, 2022)
 Thanks to Aurelio Pappadà and Gabriel Ardean for contributing to this project.
 
 < I wish the best for everyone! >
@@ -67,5 +99,5 @@ Thanks to Aurelio Pappadà and Gabriel Ardean for contributing to this project.
               (" ~----( ~   Y.  )
           ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[ https://www.asciiart.eu/animals/rabbits#:~:text=/%7C%20%20%20%20%20%20__%0A*%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20%20%20%20%20%20/%20%7C%20%20%20%2C%2D~%20/%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%0A%20%20%20%20%20.%20%20%20%20%20%20%20%20%20%20%20%20%20%20Y%20%3A%7C%20%20//%20%20/%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20.%20%20%20%20%20%20%20%20%20*%0A%20%20%20%20%20%20%20%20%20.%20%20%20%20%20%20%20%20%20%20%7C%20jj,I%20%20%20%20%20!%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%5D%5C%20%20%20%20%20%20_%5C%20%20%20%20/%22%5C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20(%22%20~%2D%2D%2D%2D(%20~%20%20%20Y.%20%20)%0A%20%20%20%20%20%20%20%20%20%20~~~~~~~~~~~~~~~~~~~~~~~~~~ ]
+[ https://www.asciiart.eu ]
 */

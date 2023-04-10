@@ -5,6 +5,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,9 +29,10 @@ import progettoap.Database;
  *
  * @author HP
  */
-public class RifStage1Controller implements Initializable {
+public class MovimentiController implements Initializable {
 
     private Database db = null;
+    private String tableName = "movimenti";
     
     private Stage stage;
     private Scene scene;
@@ -41,42 +44,21 @@ public class RifStage1Controller implements Initializable {
     @FXML
     private TableColumn<Data, Integer> id;
     @FXML
-    private TableColumn<Data, String> foodName;
+    private TableColumn<Data, Double> a, b, c, d, e, f, g;
     @FXML
-    private TableColumn<Data, Integer> avalAmount;
-    @FXML
-    private TableColumn<Data, Integer> usedAmount;
+    private TableColumn<Data, String> date, time;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String tableName = "dispensa";
         db = new Database(
                 "jdbc:mysql://localhost:3306/progettoap", "root", "", tableName
         );
-        createTable(tableName);
-        loadDataOnTable(tableName);
+        loadDataOnTable();
         
         db.closeConnection();
     }
     
-    private void createTable(String tableName){
-        try(Connection conn = db.connect();
-            Statement stmt = conn.createStatement();
-        ) {		      
-            String sql = "CREATE TABLE IF NOT EXISTS " + tableName + "(" 
-                    + "id int NOT NULL,"
-                    + "nome_alimento varchar(40),"
-                    + "quantita_disponibile float,"
-                    + "quantita_utilizzata float,"
-                    + "PRIMARY KEY (id)"
-                    + ");";
-            stmt.executeUpdate(sql); 	  
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-    
-    private void loadDataOnTable(String tableName){
+    private void loadDataOnTable(){
         String sql = "SELECT * FROM " + tableName;
         ObservableList<Data> dataList = FXCollections.observableArrayList();
 
@@ -85,21 +67,33 @@ public class RifStage1Controller implements Initializable {
             Connection connection = db.connect();
 
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
+            ResultSet resultSet = statement.executeQuery(sql);
 
 
             // Define table columns and map them to Data class properties
             id.setCellValueFactory(new PropertyValueFactory<>("id"));
-            foodName.setCellValueFactory(new PropertyValueFactory<>("foodName"));
-            avalAmount.setCellValueFactory(new PropertyValueFactory<>("avalAmount"));
-            usedAmount.setCellValueFactory(new PropertyValueFactory<>("usedAmount"));
+            a.setCellValueFactory(new PropertyValueFactory<>("inLordo"));
+            b.setCellValueFactory(new PropertyValueFactory<>("inNetto"));
+            c.setCellValueFactory(new PropertyValueFactory<>("iva"));
+            d.setCellValueFactory(new PropertyValueFactory<>("outPag"));
+            e.setCellValueFactory(new PropertyValueFactory<>("outImp"));
+            f.setCellValueFactory(new PropertyValueFactory<>("outRif"));
+            g.setCellValueFactory(new PropertyValueFactory<>("outTot"));
+            date.setCellValueFactory(new PropertyValueFactory<>("date"));
+            time.setCellValueFactory(new PropertyValueFactory<>("time"));
 
             while (resultSet.next()) {
                 Data data = new Data(
-                    resultSet.getInt("id"),
-                    resultSet.getString("nome_alimento"),
-                    resultSet.getInt("quantita_disponibile"),
-                    resultSet.getInt("quantita_utilizzata")
+                        resultSet.getInt("id"),
+                        resultSet.getFloat("entrate_lordo"),
+                        resultSet.getFloat("entrate_netto"),
+                        resultSet.getFloat("iva"),
+                        resultSet.getFloat("uscite_pagamenti"),
+                        resultSet.getFloat("uscite_impiegati"),
+                        resultSet.getFloat("uscite_rifornimenti"),
+                        resultSet.getFloat("uscite_tot"),
+                        resultSet.getString("data"),
+                        resultSet.getString("ora")
                 );
                 dataList.add(data);
             }
@@ -116,7 +110,7 @@ public class RifStage1Controller implements Initializable {
     
     @FXML
     public void indietro(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Rifornimenti.fxml"));
+        root = FXMLLoader.load(getClass().getResource("Contabilita.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
