@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -96,6 +98,7 @@ public class StipendiController implements Initializable {
         try{
             String filename = "balance.dat";
             if(checkFirstDayOfMonth() == true){
+                sendInfoToMovimenti();
                 DataWriter w = new DataWriter(filename);
                 DataReader r = new DataReader(filename);
                 
@@ -109,6 +112,71 @@ public class StipendiController implements Initializable {
         }catch(Exception e){
             System.out.println(e);
         }
+    }
+    
+    private void sendInfoToMovimenti() {
+        float total = 0;
+
+        try (Connection conn = db.connect();) {
+            // Create a statement to execute the SQL query
+            String query = "SELECT stipendio FROM " + tableName;
+            Statement stmt = conn.createStatement();
+
+            // Execute the SQL query and iterate through the results
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                float stipendio = rs.getInt("stipendio");
+                total += stipendio;
+            }
+        }
+        
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        
+        // now add the new transaction on the database
+        try (Connection conn = db.connect();) {
+            DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            
+            String query = "INSERT INTO movimenti(id, uscite_impiegati, uscite_tot, data, ora) VALUES ("
+                    + getNextFreeId() + ", "
+                    + total + ", "
+                    + total + ", '"
+                    + date.format(now) + "', '"
+                    + time.format(now)
+                    + "')";
+            
+            PreparedStatement updateStmt = conn.prepareStatement(query);
+            updateStmt.executeUpdate();
+        }
+        
+        catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
+    public int getNextFreeId() throws SQLException {
+        // create the connection
+        Connection connection = db.connect();
+
+        // create a SQL SELECT statement to get the maximum ID value
+        String sql = "SELECT MAX(id) FROM movimenti";
+
+        // execute the SELECT statement and get the result set
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        // get the maximum ID value
+        int maxId = 0;
+        if (resultSet.next()) {
+            maxId = resultSet.getInt(1);
+        }
+
+        // return the next free ID (the maximum ID value plus 1)
+        return maxId + 1;
     }
     
     public void salva() throws SQLException{

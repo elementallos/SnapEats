@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -22,7 +24,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -52,13 +53,14 @@ public class RifStage2Controller implements Initializable {
     @FXML
     private TableColumn<Data, Float> price;
     @FXML
-    private TableColumn<Data, Integer> amount;
+    private TableColumn<Data, Float> amount;
     
     
     @FXML
     private Label ultimoOrdineData;
     
     private String tableName = "ordini_cibo";
+    private ObservableList<Data> list = null;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,7 +72,7 @@ public class RifStage2Controller implements Initializable {
         );
         createTableOrdini(ordini);
         createTable();
-        loadDataOnTable();
+        list = loadDataOnTable();
         
         ultimoOrdineData.setText(getUltimoOrdineData(ordini));
         ultimoOrdineData.setWrapText(true);
@@ -119,7 +121,7 @@ public class RifStage2Controller implements Initializable {
     }
     
     
-    private void loadDataOnTable(){
+    private ObservableList loadDataOnTable(){
         String sql = "SELECT * FROM " + tableName;
         ObservableList<Data> dataList = FXCollections.observableArrayList();
 
@@ -134,23 +136,7 @@ public class RifStage2Controller implements Initializable {
             // Define table columns and map them to Data class properties
             foodName.setCellValueFactory(new PropertyValueFactory<>("foodName"));
             price.setCellValueFactory(new PropertyValueFactory<>("price"));
-            price.setCellFactory(column -> new TableCell<Data, Float>() {
-                @Override
-                protected void updateItem(Float item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                    } else {
-                        setText(String.format("%.2f", item));
-                    }
-                }
-            });
-            amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
-
-            // Add columns to TableView
-            /*table.getColumns().add(foodName);
-            table.getColumns().add(price);
-            table.getColumns().add(amount);*/
+            amount.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
             while (resultSet.next()) {
                 Data data = new Data(
@@ -163,11 +149,15 @@ public class RifStage2Controller implements Initializable {
 
             // Add data to TableView
             table.setItems(dataList);
+            
+            return dataList;
         }
 
         catch(Exception e){
             System.out.println(e);
         }
+        
+        return null;
     }
     
     
@@ -206,13 +196,48 @@ public class RifStage2Controller implements Initializable {
         //  il metodo che contatta il fornitore prepara la lista per poi inserirla in una mail da mandare al rifornitore
         ArrayList<String[]> emailBody = getEmail();
         if(emailBody.isEmpty() != true){
-            sendEmail(emailBody);
+            //sendEmail(emailBody);
             sendInfoToMovimenti();
+            updateFoodInventory(list);
             svuotaDatabase();
         }else{
             System.out.println("Cannot order empty list!");
         }
     }
+    
+    public void updateFoodInventory(ObservableList<Data> dataList) {
+        try {
+            // Establish database connection
+            Connection conn = db.connect();
+
+            // Loop through each item in the ObservableList
+            for (Data data : dataList) {
+                // Retrieve the current quantity of the food from the database
+                PreparedStatement stmt = conn.prepareStatement("SELECT quantita_disponibile FROM dispensa WHERE nome_alimento = ?");
+                stmt.setString(1, data.getFoodName());
+                ResultSet rs = stmt.executeQuery();
+                int currentQuantity = 0;
+                if (rs.next()) {
+                    currentQuantity = rs.getInt("quantita_disponibile");
+                }
+
+                // Calculate the new quantity of the food
+                double newQuantity = currentQuantity + data.getQuantity();
+
+                // Update the database with the new quantity of the food
+                PreparedStatement updateStmt = conn.prepareStatement("UPDATE dispensa SET quantita_disponibile = ? WHERE nome_alimento = ?");
+                updateStmt.setDouble(1, newQuantity);
+                updateStmt.setString(2, data.getFoodName());
+                updateStmt.executeUpdate();
+            }
+
+            // Close database connection
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     
     private void sendInfoToMovimenti() {
         float total = 0;
@@ -230,13 +255,55 @@ public class RifStage2Controller implements Initializable {
                 int quantita = rs.getInt("quantita");
                 total += prezzo * quantita;
             }
-        } catch (SQLException ex) {
-            // Handle any SQL exceptions
-            System.err.println("SQLException: " + ex.getMessage());
         }
         
-        // now it has the total
-        System.out.println(total);
+        catch (Exception e) {
+            System.err.println(e);
+        }
+        
+        
+        // now add the new transaction on the database
+        try (Connection conn = db.connect();) {
+            DateTimeFormatter date = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            
+            String query = "INSERT INTO movimenti(id, uscite_rifornimenti, uscite_tot, data, ora) VALUES ("
+                    + getNextFreeId() + ", "
+                    + total + ", "
+                    + total + ", '"
+                    + date.format(now) + "', '"
+                    + time.format(now)
+                    + "')";
+            
+            PreparedStatement updateStmt = conn.prepareStatement(query);
+            updateStmt.executeUpdate();
+        }
+        
+        catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+    
+    public int getNextFreeId() throws SQLException {
+        // create the connection
+        Connection connection = db.connect();
+
+        // create a SQL SELECT statement to get the maximum ID value
+        String sql = "SELECT MAX(id) FROM movimenti";
+
+        // execute the SELECT statement and get the result set
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        // get the maximum ID value
+        int maxId = 0;
+        if (resultSet.next()) {
+            maxId = resultSet.getInt(1);
+        }
+
+        // return the next free ID (the maximum ID value plus 1)
+        return maxId + 1;
     }
 
     
@@ -301,7 +368,7 @@ public class RifStage2Controller implements Initializable {
     
     public void alert(String rifornitore){
         Alert alert = new Alert(AlertType.INFORMATION,"");
-        alert.setTitle("Email Sender");  //warning box title
+        alert.setTitle("Email Sender");
         alert.setHeaderText("Mail mandata con successo!");
         alert.setContentText("La mail è stata mandata con successo al rifornitore.\n\nRifornitore: " + rifornitore);
         alert.showAndWait();

@@ -15,7 +15,6 @@ public class Data {
     private Integer avalAmount = null;
     private Integer usedAmount = null;
     private Float price = null;
-    private Integer amount = null;
     private Float quantity = null;
     
     // per movimenti
@@ -88,10 +87,10 @@ public class Data {
         this.avalAmount = avalAmount;
     }
     
-    public Data(String foodName, float price, int amount) {
+    public Data(String foodName, float price, float quantity) {
         this.foodName = foodName;
         this.price = price;
-        this.amount = amount;
+        this.quantity = quantity;
     }
 
     public Data(String nome, String cognome, float oreLavorate, float stipendio, float pagaOraria){
@@ -147,14 +146,6 @@ public class Data {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 
     public Float getQuantity() {

@@ -142,8 +142,8 @@ public class ContabilitaController implements Initializable {
             // Define table columns and map them to Data class properties
             date.setCellValueFactory(new PropertyValueFactory<>("date"));
             time.setCellValueFactory(new PropertyValueFactory<>("time"));
-            in.setCellValueFactory(new PropertyValueFactory<>("in"));
-            out.setCellValueFactory(new PropertyValueFactory<>("out"));
+            in.setCellValueFactory(new PropertyValueFactory<>("inNetto"));
+            out.setCellValueFactory(new PropertyValueFactory<>("outTot"));
 
             while (resultSet.next()) {
                 Data data = new Data(

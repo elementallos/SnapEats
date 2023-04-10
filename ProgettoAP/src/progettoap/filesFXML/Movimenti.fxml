@@ -15,15 +15,23 @@
       <TableView fx:id="table" layoutX="105.0" layoutY="149.0" prefHeight="302.0" prefWidth="801.0">
          <columns>
             <TableColumn fx:id="id" prefWidth="36.79998779296875" text="ID" />
-            <TableColumn fx:id="a" prefWidth="83.19999694824219" text="E. LORDO" />
-            <TableColumn fx:id="b" prefWidth="88.800048828125" text="E. NETTO" />
-            <TableColumn fx:id="c" prefWidth="54.39996337890625" text="IVA" />
-            <TableColumn fx:id="d" prefWidth="108.0" text="U. PAGAMENTI" />
-            <TableColumn fx:id="e" prefWidth="93.5999755859375" text="U. IMPIEGATI" />
-            <TableColumn fx:id="f" prefWidth="94.40008544921875" text="U. RIFORNIMENTI" />
-            <TableColumn fx:id="g" prefWidth="68.800048828125" text="U. TOTALI" />
-            <TableColumn fx:id="date" prefWidth="96.800048828125" text="DATA" />
-            <TableColumn fx:id="time" prefWidth="48.0" text="ORA" />
+            <TableColumn prefWidth="75.0" text="ENTRATE">
+               <columns>
+                  <TableColumn fx:id="a" prefWidth="83.19999694824219" text="LORDO" />
+                  <TableColumn fx:id="b" prefWidth="88.800048828125" text="NETTO" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="c" prefWidth="39.199951171875" text="IVA" />
+            <TableColumn prefWidth="360.0" text="USCITE">
+               <columns>
+                  <TableColumn fx:id="d" prefWidth="108.0" text="PAGAMENTI" />
+                  <TableColumn fx:id="e" prefWidth="93.5999755859375" text="IMPIEGATI" />
+                  <TableColumn fx:id="f" prefWidth="94.40008544921875" text="RIFORNIMENTI" />
+                  <TableColumn fx:id="g" prefWidth="68.800048828125" text="TOTALI" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="date" prefWidth="116.80010986328125" text="DATA" />
+            <TableColumn fx:id="time" prefWidth="44.800048828125" text="ORA" />
          </columns></TableView>
       <Label layoutX="426.0" layoutY="86.0" styleClass="labelTitle" text="MOVIMENTI" textFill="#ffee00">
          <font>

@@ -5,8 +5,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,8 +70,8 @@ public class MovimentiController implements Initializable {
 
             // Define table columns and map them to Data class properties
             id.setCellValueFactory(new PropertyValueFactory<>("id"));
-            a.setCellValueFactory(new PropertyValueFactory<>("inLordo"));
-            b.setCellValueFactory(new PropertyValueFactory<>("inNetto"));
+            a.setCellValueFactory(new PropertyValueFactory<>("inNetto"));
+            b.setCellValueFactory(new PropertyValueFactory<>("inLordo"));
             c.setCellValueFactory(new PropertyValueFactory<>("iva"));
             d.setCellValueFactory(new PropertyValueFactory<>("outPag"));
             e.setCellValueFactory(new PropertyValueFactory<>("outImp"));
