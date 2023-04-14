@@ -1,14 +1,16 @@
-ID,Nome,Cognome,Data Di Nascita,Codice Fiscale,Numero di telefono,Email
-0,Alessandro,Rossi,25/11/1988,RSSLSN88A12H501X,(+39) 02 12345678,alessandro.rossi@example.it
-1,Beatrice,Conti,12/05/1992,CNTBRC92M46H501W,(+39) 06 23456789,beatrice.conti@example.it
-2,Carlo,Bianchi,11/03/1985,BNCCHR85C11H501Y,(+39) 02 34567890,carlo.bianchi@example.it
-3,Davide,Marino,22/01/1990,MRNDVD90A22H501F,(+39) 06 45678901,davide.marino@example.it
-4,Elena,Giordano,23/09/1993,GRDELN93P59H501H,(+39) 02 56789012,elena.giordano@example.it
-5,Francesco,Lombardi,03/02/1987,LMBFNC87B03H501B,(+39) 06 67890123,francesco.lombardi@example.it
-6,Giulia,Greco,08/12/1988,GRCGLI88H41H501J,(+39) 02 78901234,giulia.greco@example.it
-7,Antonio,Gentile,11/01/1989,GNTNTN89A11H501M,(+39) 06 89012345,antonio.gentile@example.it
-8,Bianca,Martini,01/04/1991,MRTBNC91A47H501Q,(+39) 02 90123456,bianca.martini@example.it
-9,Carmine,Ricci,24/03/1992,RCCCMN92C24H501N,(+39) 06 01234567,carmine.ricci@example.it
-10,Daria,Neri,14/06/1986,NRIDRA86M44H501S,(+39) 02 12345678,daria.neri@example.it
-11,Enrico,Rizzo,27/04/1983,RZZNCR83D27H501G,(+39) 06 23456789,enrico.rizzo@example.it
-12,Fabiana,Moretti,09/08/1984,MRTFBN84L59H501T,(+39) 02 34567890,fabiana.moretti@example.it
+"id","nome","cognome","data_nascita","codice_fiscale","telefono","email","ore_lavorate","stipendio","paga_oraria"
+"1","Alessandro","Rossi","25/11/1982","RSSLSN88A12H501X","(+39) 02 123456","alessandro.rossi@example.it","67","603","9"
+"2","Beatrice","Conti","12/05/1992","CNTBRC92M46H501W","(+39) 06 234567","beatrice.conti@example.it","0","0","8.5"
+"3","Carlo","Bianchi","11/03/1985","BNCCHR85C11H501Y","(+39) 02 345678","carlo.bianchi@example.it","0","0","11"
+"4","Davide","Marino","22/01/1990","MRNDVD90A22H501F","(+39) 06 456789","davide.marino@example.it","0","0","10.5"
+"5","Elena","Giordano","23/09/1993","GRDELN93P59H501H","(+39) 02 567890","elena.giordano@example.it","0","0","9.5"
+"6","Francesco","Lombardi","03/02/1987","LMBFNC87B03H501B","(+39) 06 678901","francesco.lombardi@example.it","0","0","8"
+"7","Giulia","Greco","08/12/1988","GRCGLI88H41H501J","(+39) 02 789012","giulia.greco@example.it","0","0","9.5"
+"8","Antonio","Gentile","11/01/1989","GNTNTN89A11H501M","(+39) 06 890123","antonio.gentile@example.it","0","0","9.5"
+"9","Bianca","Martini","01/04/1991","MRTBNC91A47H501Q","(+39) 02 901234","bianca.martini@example.it","0","0","11.5"
+"10","Carmine","Ricci","24/03/1972","RCCCMN92C24H501N","(+39) 06 012345","carmine.ricci@example.it","0","0","9"
+"11","Daria","Neri","14/06/1986","NRIDRA86M44H501S","(+39) 02 123456","daria.neri@example.it","0","0","12.5"
+"12","Enrico","Rizzo","27/04/1983","RZZNCR83D27H501G","(+39) 06 234567","enrico.rizzo@example.it","0","0","10"
+"13","Fabiana","Moretti","09/08/1984","MRTFBN84L59H501T","(+39) 02 345678","fabiana.moretti@example.it","0","0","11"
+"14","Gabriel","Ardean","04/01/2005","RDNGRL05A04H501O","+39 3890485263","gabriel.ardean@example.it","0","0","45"
+"15","Aurelio","Pappada","26/03/2005","PPPRLA05C26E507A","+39 3914570643","aurelio.pappada@example.it","0","0","999"
