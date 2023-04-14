@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.P2_Rifornimenti_Ordini_Ordina">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="68.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="431.0" layoutX="68.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="524.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="224.0" layoutX="652.0" layoutY="189.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="278.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="224.0" layoutX="652.0" layoutY="189.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="278.0" />
+      <Label layoutX="875.0" layoutY="562.0" style="-fx-effect: none;" text="&gt; INDIETRO" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="875.0" layoutY="561.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="23.0" prefWidth="110.0" text="Button" />
+      <TableView fx:id="table" layoutX="107.0" layoutY="125.0" prefHeight="350.0" prefWidth="446.0">
+        <columns>
+          <TableColumn fx:id="foodName" prefWidth="171.99998474121094" text="ALIMENTO" />
+            <TableColumn fx:id="usedAmount" prefWidth="128.0" text="QUANTITA USATA" />
+            <TableColumn fx:id="avalAmount" prefWidth="124.79998779296875" text="QUANTITA DISP." />
+        </columns>
+      </TableView>
+      <Label fx:id="foo" layoutX="675.0" layoutY="212.0" prefHeight="22.0" prefWidth="206.0" text="&lt;alimento&gt;" textFill="#919191">
+         <font>
+            <Font name="Consolas Bold" size="16.0" />
+         </font></Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="48.0" layoutX="675.0" layoutY="347.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="232.0" />
+      <Label layoutX="766.0" layoutY="360.0" text="SALVA" textFill="#919191">
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="675.0" layoutY="347.0" mnemonicParsing="false" onAction="#salva" opacity="0.0" prefHeight="48.0" prefWidth="232.0" text="Button" />
+      <Label layoutX="675.0" layoutY="252.0" prefHeight="26.0" prefWidth="206.0" text="Quantità:" textFill="#919191">
+         <font>
+            <Font name="Consolas Bold" size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="bar" layoutX="675.0" layoutY="279.0" prefHeight="26.0" prefWidth="232.0" />
+   </children>
+</AnchorPane>

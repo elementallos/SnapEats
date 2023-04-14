@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoap.filesFXML.P1_ImpiegatiController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="69.0" layoutY="73.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="344.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="70.0" layoutY="73.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="344.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="478.0" layoutY="73.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="shadow" width="452.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="433.0" layoutX="479.0" layoutY="73.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="452.0" />
+      <Label layoutX="171.0" layoutY="106.0" styleClass="labelTitle" stylesheets="@rifornimenti.css" text="IMPIEGATI" textFill="#ffee00">
+         <font>
+            <Font name="HP Simplified Bold" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="756.0" layoutY="555.0" style="-fx-effect: none;" text="&gt; INDIETRO   LOGOUT" textFill="WHITE">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="898.0" layoutY="547.0" mnemonicParsing="false" onAction="#logout" opacity="0.0" prefHeight="38.0" prefWidth="72.0" text="Button" />
+      <Button layoutX="754.0" layoutY="547.0" mnemonicParsing="false" onAction="#indietro" opacity="0.0" prefHeight="38.0" prefWidth="115.0" text="Button" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="50.0" layoutX="100.0" layoutY="166.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="box" width="275.0" />
+      <MenuButton layoutX="141.0" layoutY="172.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="202.0" styleClass="menubutton" text="GESTIONE IMPIEGATI" textAlignment="CENTER">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#add" text="Aggiungi impiegato" />
+          <MenuItem mnemonicParsing="false" onAction="#del" text="Elimina impiegato" />
+            <MenuItem mnemonicParsing="false" onAction="#mod" text="Modifica impiegato" />
+        </items>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </MenuButton>
+      <TableView fx:id="table" layoutX="524.0" layoutY="113.0" prefHeight="354.0" prefWidth="362.0">
+        <columns>
+          <TableColumn fx:id="id" prefWidth="51.20001220703125" text="ID" />
+          <TableColumn fx:id="nome" prefWidth="147.199951171875" text="NOME" />
+            <TableColumn fx:id="cognome" prefWidth="140.800048828125" text="COGNOME" />
+        </columns>
+      </TableView>
+      <Label fx:id="info" alignment="TOP_LEFT" layoutX="103.0" layoutY="268.0" prefHeight="216.0" prefWidth="275.0" style="-fx-effect: none;" stylesheets="@rifornimenti.css" text="&lt;details&gt;" textFill="#909090" wrapText="true">
+         <font>
+            <Font name="Consolas" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="104.0" layoutY="236.0" prefHeight="30.0" prefWidth="275.0" style="-fx-effect: none;" stylesheets="@rifornimenti.css" text="PIU INFORMAZIONI:" textFill="#909090" wrapText="true">
+         <font>
+            <Font name="Consolas Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
